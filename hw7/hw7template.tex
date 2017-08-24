@@ -1,0 +1,371 @@
+\documentclass[11pt]{article}
+
+\usepackage{amsmath,amssymb,amsthm,setspace,tabto,fancyhdr,sectsty,graphicx}
+\usepackage[shortlabels]{enumitem}
+\usepackage[nobreak=true]{mdframed}
+\usepackage[left=1.25in,right=0.75in,top=1.25in,bottom=2.0in]{geometry}
+
+\newcommand*{\Question}[1]{\section{#1}}
+\newenvironment{Parts}{\begin{enumerate}[label=(\alph*)]}{\end{enumerate}}
+\newcommand*{\Part}{\item}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% UNCOMMENT NEXT LINE FOR SOLUTION BOXES
+ \newcommand*{\solnboxes}{}
+
+%%%%%%%%%%%%%%%%%%%% name/id
+\rfoot{\small Andy Zhang | 3031931319}
+
+%%%%%%%%%%%%%%%%%%%% hw number
+\newcommand*{\hwnum}{7}
+
+
+\ifdefined\solnboxes
+    \newenvironment{Answer}{\vspace{10pt}\begin{mdframed}\textbf{Solution}\\}{\end{mdframed}\vfill\pagebreak[3]}
+\else
+    \newenvironment{Answer}{\vspace{10pt}}{\vfill\pagebreak[3]}
+\fi
+\newcommand*{\MC}[1]{\multicolumn{1}{c}{#1}}
+\newcommand*{\N}{\mathbb{N}}
+\newcommand*{\Z}{\mathbb{Z}}
+\newcommand*{\Q}{\mathbb{Q}}
+\newcommand*{\R}{\mathbb{R}}
+\newcommand*{\C}{\mathbb{C}}
+\newcommand*{\GF}{\text{GF}}
+
+\pagestyle{fancy}
+\headheight=75pt
+\sectionfont{\Large\fontfamily{lmdh}\selectfont}
+
+\renewcommand{\headrulewidth}{6pt}
+\chead{\rule{\textwidth}{6pt} \vspace{20pt}\\}
+\lhead{\setstretch{1.05}\Large\fontfamily{lmdh}\selectfont
+CS 70        \tabto{96pt} Discrete Mathematics and Probability Theory\smallskip\\
+Spring 2017  \tabto{96pt} Rao}
+\rhead{\huge     \fontfamily{lmdh}\selectfont     HW \hwnum}
+
+\lfoot{\small CS 70, Spring 2017, HW \hwnum}
+\begin{document}
+
+\Question{Sundry} 
+\vspace{10pt}
+%%%%%%%%%%%%%%%%%%%% SUNDRY PART HERE
+\noindent Nadir Akhtar: nadir\_akhtar@berkeley.edu\\
+Rustie Lin: rustielin@berkeley.edu\\
+Sukrit Arora: sukrit.arora@berkeley.edu\\
+
+I certify that all solutions are entirely in my words and that I have not looked at another student’s
+solutions. I have credited all external sources in this write up. - Andy Zhang
+%%%%%%%%%%%%%%%%%%%% END SUNDRY
+\vfill\pagebreak[3]
+
+%%%%%%%%%%%%%%%%%%%% QUESTIONS START HERE
+\Question{More Countability}
+
+Given:
+\begin{itemize}
+\item $A$ is a countable set, non-empty set. For all $i \in A$, $S_i$ is an uncountable set.
+\item $B$ is an uncountable set. For all $i \in B$, $Q_i$ is a countable set.
+\end{itemize}
+
+For each of the following, decide if the expression is
+"Always Countable", "Always Uncountable", "Sometimes Countable,
+Sometimes Uncountable".
+
+For the "Always" cases, prove your claim. For the "Sometimes" case, provide
+two examples -- one where the expression is countable, and one where
+the expression is uncountable.
+
+\begin{Parts}
+    
+\Part $\bigcup_{i \in A} S_i$
+\begin{Answer}
+Always uncountable. The union of a countable number of uncountable sets will contain at least all elements of the largest of these uncountable sets. Thus, since the smallest possible $\bigcup_{i \in A} S_i$ is still uncountable, no $\bigcup_{i \in A} S_i$ can be countable. 
+\end{Answer}
+
+\Part $\bigcap_{i \in A} S_i$
+\begin{Answer}
+Sometimes countable. When $S_i$ are disjoint, their intersection will be the empty set and will thus be countable. When all $S_i$ are the same, their intersection will be just any one of the $S_i$ which is still uncountable. 
+\end{Answer}
+
+\Part $\bigcup_{i \in B} Q_i$
+\begin{Answer}
+Sometimes countable. If we let $B=\R$ and $Q_i=\N$ for all $i$, the union of all $Q_i$ will be $\N$ whic is countable. If we let $B=\mathbb{R}$ and $Q_i=\{i\}$, then the union of all $Q_i$ will be $\R$ which is uncountable.
+\end{Answer}
+
+\Part $\bigcap_{i \in B} Q_i$
+\begin{Answer}
+Always countable. Since $Q_k$ is countable for any $k\in B$, the union of all $Q_i$ is countable because it is a subset of the set of all $Q_k$. 
+\end{Answer}
+
+\Part $A \cap B$
+\begin{Answer}
+Alwyas Countable. Since $|A \cap B|$ can be at most $|A|$ and we know $A$ is countable, $|A \cap B|$ must also be countable.
+\end{Answer}
+
+\end{Parts}
+
+
+\Question{Counting Cartesian Products}
+
+For two sets $A$ and $B$, define the Cartesian Product as $A \times B = \{(a,b) : a \in A, b \in B \}$.
+
+\begin{Parts}
+    \Part Given two countable sets $A$ and $B$, prove that $A \times B$ is countable.
+    \begin{Answer}
+        In note 10, we proved that $\Z \times \Z$ was countable using the spiral method. This was possible because $\Z$ itself was countable. Similarly, since $A$ and $B$ are both countable, $A \times B$ is also countable. 
+    \end{Answer}
+
+    \Part Given a finite number of countable sets $A_1, A_2, \dots, A_n$, prove that 
+    $A_1 \times A_2 \times \cdots \times A_n$ \\is countable. 
+    \begin{Answer}
+        Proceed by induction on $n$.\\
+        \\
+        Base case: From part (a), we know that $A_1 \times A_2$ is countable\\
+        \\
+        Inductive hypothesis: For arbitrary $k$, $A_1 \times A_2 \times \cdots \times A_k$ is countable if  $A_1, A_2, \dots, A_k$ are all countable.\\
+        \\
+        Inductive step: For $k+1$ sets, we know from the inductive hypothesis that $A_1 \times A_2 \times \cdots \times A_{k+1}$ can be rewritten as $A_x \times A_{k+1}$ where $A_x$ is the Cartesian Product of the first $k$ sets. From the inductive hypothesis, we know that $A_x$ is countable. Thus we are left with the Cartesian Product of two countable sets, $A_x$ and $A_{k+1}$ which we know is countable. This completes the induction.
+    \end{Answer}
+
+    \Part Consider an infinite number of countable sets: $B_1, B_2, \dots$. Under what
+    condition(s) is \\$B_1 \times B_2 \times \cdots$ countable? Prove that if this
+    condition is violated, $B_1 \times B_2 \times \cdots$ is uncountable.
+    \begin{Answer}
+        $B_1 \times B_2 \times \cdots$ is countable when at least one of $B_1, B_2, \dots$ is the empty set or if $B_1, B_2, \dots$ contains an infinite number of cardinality 1 sets and contains a finite number of finite cardinality sets. If these conditions are violated, we can use Cantor's diagonalization to prove that $B_1 \times B_2 \times \cdots=A$ is uncountable. Suppose $A$ is countable, then we can enumerate each element in $A$. For each element, pick two points $x_i, y_i \in B_i$. For every element in each enumeration, if that element equals $x_i$, then change it to $y_i$; otherwise, change it to $x_i$. Using this method, we will obtain an enumeration that is not in $A$ which is a contradiction because we are able to enumerate all elements in $A$. If infinitely many of them have more than one element, their product can be represented as infinitely many infinitely long bit strings which is a bijection to $\R$. Since $\R$ is not countable, $B_1 \times B_2 \times \cdots$ also cannot be countable if the second condition is not met.
+    \end{Answer}
+
+\end{Parts}
+
+\Question{Impossible Programs}
+
+Show that none of the following programs can exist.
+
+\begin{Parts}
+
+\Part
+Consider a program $P$ that takes in any program $F$, input $x$ and output $y$ and returns true if
+$F(x)$ outputs $y$ and returns false otherwise.
+\begin{Answer}
+     We will construct a counterexample: let $F(x)$ be a program that outputs any value except $y$ if $P(F,x,y)$ returns true and outputs $y$ if $P(F,x,y)$ returns false. Thus, if we pass $F,x,y$ where $x$ and $y$ are arbitrary inputs and outputs to $P$, if $P$ says $F(x)$ will output $y$, then $F(x)$ will not output $y$. If $P$ says $F(x)$ will not output $y$, then $F(x)$ will output $y$. Thus, there exists a program $F$ where $P$ does not return the correct result.   
+\end{Answer}
+
+\Part
+Consider a program $P$ that takes in any program $F$ and returns true if $F(F)$ halts and returns
+false if it doesn't halt.
+\begin{Answer}
+    We will construct a counterexample: let $F(x)$ be a program that loops forever if $P(F)$ returns true and halts if $P(F)$ returns false. Thus, if we pass $F(F)$ to $P$, if $P$ says $F(F)$ will halt, then it will loop forever. If $P$ says $F(F)$ will loop forever, $F$ will halt. Thus, there exists a program $F$ where $P$ does not return the correct result.
+\end{Answer}
+
+\Part
+Consider a program $P$ that takes in any programs $F$ and $G$ and returns true if $F$ and $G$ halt
+on all the same inputs and returns false otherwise.
+\begin{Answer}
+     We will construct a counterexample: let $F(x)$ be a program that loops forever for all $x$ if $P(F,G)$ returns true and halts for all $x$ if $P(F,G)$ returns false; let $G(x)$ be a program that halts for all $x$ if $P(F,G)$ returns true and halts if $P(F,G)$ returns false. When passing in $F and G$ to $P$, if $P$ returns true, then $F$ will loop forever for all inputs while $G$ halts for all inputs. If $P$ returns false, then $F$ will halt for all inputs while $G$ will also halt for all inputs. Thus, there exists programs $F$ and $G$ where $P$ will not return the correct result.
+\end{Answer}
+\end{Parts}
+
+
+ \Question{Printing All $x$ Where $M(x)$ Halts}
+
+Prove that it is possible to write a program $P$ which:
+  \begin{itemize}
+  \item takes as input $M$, a Java program,
+  \item runs forever, and prints out strings to the console,
+  \item for every $x$, if $M(x)$ halts, then $P(M)$ eventually prints out $x$,
+  \item for every $x$, if $M(x)$ does NOT halt, then $P(M)$ never prints out $x$.
+  \end{itemize}
+
+\begin{Answer}
+\begin{verbatim}
+    def P(M):
+        let i=0
+        let lst=[]
+        while i<infinity :
+            let func_i=a function that runs M on argument i 
+            add func_i to list
+            run every func in lst for 1 loop
+            
+            for func_x in list that halted:
+                print x
+                remove func_x from lst
+            i+=1
+        
+\end{verbatim}
+For any $M(x)$ that halts, $x$ will be printed out. Since each function is run only one loop at a time, for any $M(x)$ that does not halt, $x$ will never be printed out and $P$ will continue to iterate over the list of functions $lst$.
+\end{Answer}
+
+\Question{Counting, Counting, and More Counting}
+
+The only way to learn counting is to practice, practice, practice, so
+here is your chance to do so.
+For this problem, you do not need to show work that justifies your answers.
+We encourage you to leave your answer as an expression (rather than
+trying to evaluate it to get a specific number).
+\begin{Parts}
+\Part How many 10-bit strings are there that contain exactly 4 ones?
+\begin{Answer}
+$\binom{10}{4}$
+\end{Answer}
+
+\Part How many ways are there to arrange $n$ 1s and $k$ 0s into a sequence?
+\begin{Answer}
+$\binom{n+k}{k}$
+\end{Answer}
+
+\Part A bridge hand is obtained by selecting 13 cards from a standard
+  52-card deck. The order of the cards in a bridge hand is
+  irrelevant. \\
+  How many different 13-card bridge hands are there? 
+  How many different 13-card bridge hands are there that contain
+  no aces? How many different 13-card bridge hands are there that contain
+  all four aces? How many different 13-card bridge hands are there that contain
+  exactly 6 spades?
+\begin{Answer}
+$\binom{52}{13}, \binom{48}{13}, \binom{48}{9}, \binom{13}{5}*\binom{47}{8}$
+\end{Answer}
+
+\Part How many 99-bit strings are there that contain more ones than
+  zeros?
+\begin{Answer}
+$\sum_{n=50}^{99} \binom{99}{n}$
+\end{Answer}
+ 
+\Part An anagram of FLORIDA is any re-ordering of the letters of FLORIDA, i.e., any
+  string made up of the letters F, L, O, R, I, D, and A, in any order.
+  The anagram does not have to be an English word. \\
+  How many different anagrams of FLORIDA are there? How many different anagrams 
+  of ALASKA are there? How many different anagrams of ALABAMA are there? 
+  How many different anagrams of MONTANA are there?
+\begin{Answer}
+$7!, \frac{6!}{3!}, \frac{7!}{4!}, \frac{7!}{2!*2!}$
+\end{Answer}
+
+\Part If we have a standard 52-card deck, how many ways are there to
+  order these 52 cards?
+\begin{Answer}
+$52!$
+\end{Answer}
+
+\Part Two identical decks of 52 cards are mixed together, yielding a
+  stack of 104 cards.
+  How many different ways are there to order this stack of 104 cards?
+\begin{Answer}
+$\frac{104!}{2^{52}}$
+\end{Answer}
+
+\Part We have 9 balls, numbered 1 through 9, and 27 bins.
+  How many different ways are there to distribute these 9 balls among
+  the 27 bins? Assume the bins are distinguishable (e.g., numbered 1
+  through 27).
+\begin{Answer}
+27^9
+\end{Answer}
+
+\Part We throw 9 identical balls into 7 bins.
+  How many different ways are there to distribute these 9 balls among
+  the 7 bins such that no bin is empty? Assume the bins are
+  distinguishable (e.g., numbered 1 through 7).
+\begin{Answer}
+$\binom{8}{2}$
+\end{Answer}
+
+\Part How many different ways are there to throw 9 identical balls
+  into 27 bins? Assume the bins are distinguishable (e.g., numbered 1
+  through 27).
+\begin{Answer}
+$\binom{35}{9}$
+\end{Answer}
+
+\Part There are exactly 20 students currently enrolled in a class.
+  How many different ways are there to pair up the 20 students, so
+  that each student is paired with one other student?
+\begin{Answer}
+$\frac{20!}{10!2^{10}}$
+\end{Answer}
+
+\Part Let (1, 1) be the bottom-left corner and (8, 8) be the upper-right 
+corner of a chessboard. If you are allowed to move one square at a time and
+can only move up or right, what is the number of ways to go from the bottom-left corner to 
+the upper-right corner? 
+\begin{Answer}
+$\binom{16}{8}$
+\end{Answer}
+
+\Part What is the number of ways to go from the bottom-left corner to 
+the upper-right corner of the chesssboard, if you must pass through the square 
+(6, 2), where $(i, j)$ represents the square in the $i$th row from the
+bottom and the $j$th column from the left?
+\begin{Answer}
+$\binom{8}{2}*\binom{10}{3}$
+\end{Answer}
+
+\Part How many solutions does $x_0 + x_1 + \cdots + x_k = n$ have, if each $x$ must be a non-negative integer?
+\begin{Answer}
+$\binom{n+k}{k}$
+\end{Answer}
+
+\Part How many solutions does $x_0 + x_1 = n$ have, if each $x$ must be a \emph{strictly positive} integer?
+\begin{Answer}
+$n-1$
+\end{Answer}
+
+\Part How many solutions does $x_0 + x_1 + \cdots + x_k = n$ have, if each $x$ must be a \emph{strictly positive} integer?
+\begin{Answer}
+$\binom{n-1}{k}$
+\end{Answer}
+
+\end{Parts}
+
+
+\Question{Fermat's Necklace}
+
+  Let $p$ be a prime number and let $k$ be a positive integer.  We have an endless supply of beads. The beads come in
+  $k$ different colors. All beads of the same color are indistinguishable.
+
+  \begin{Parts}
+
+    \Part We have a piece of string. As a relaxing study break, we want to make a
+    pretty garland by threading $p$ beads onto the string.
+    How many different ways are there construct such a sequence of $p$ beads of $k$ different colors?
+    \begin{Answer}
+    $k^p$
+    \end{Answer}
+
+    \Part Now let's add a restriction.  We want our garland to be exciting and multicolored. Now
+    how many different sequences exist?
+    (Your answer should be a simple function of $k$ and $p$.)
+    \begin{Answer}
+    $k^p-k$
+    \end{Answer}
+
+    \Part Now we tie the two ends of the string together, forming a circular
+    necklace which lets us freely rotate the beads around the necklace.
+    We'll consider two necklaces equivalent if the sequence of colors on one
+    can be obtained by rotating the beads on the other.
+    (For instance, if we have $k=3$ colors---red (R), green (G), and
+    blue (B)---then the length $p = 5$ necklaces RGGBG, GGBGR, GBGRG, BGRGG, and GRGGB are all
+    equivalent, because these are cyclic shifts of each other.)
+
+    How many non-equivalent sequences are there now? Again, the $p$
+    beads must not all have the same color.
+    (Your answer should be a simple function of $k$ and $p$.)
+
+    [\textit{Hint}: What follows if rotating all the beads on a necklace to another
+      position produces an identical looking necklace?]
+    \begin{Answer}
+    $\frac{k^p-k}{p}$
+    \end{Answer}
+
+    \Part Use your answer to part (c) to prove Fermat's little theorem.
+    (Recall that Fermat's little theorem says that if $p$ is prime and
+    $a \not\equiv 0 \pmod p$, then $a^{p-1} \equiv 1 \pmod p$.)
+    \begin{Answer}
+    Since $\frac{k^p-k}{p}$ must be a natural number, it follows that $p$ divides $k^p-k$. Since $k^p-k=k(k^{p-1}-1)$ and we know that $k$ and $p$ are co-prime, it must be true that $p$ divides $k^{p-1}-1$ which is the statement of Fermat's Little Theorem.
+    \end{Answer}
+
+    \end{Parts}
+
+%%%%%%%%%%%%%%%%%%%% QUESTIONS END HERE
+
+\end{document}

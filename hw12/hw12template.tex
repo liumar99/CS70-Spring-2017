@@ -1,0 +1,330 @@
+\documentclass[11pt]{article}
+
+\usepackage{amsmath,amssymb,amsthm,setspace,tabto,fancyhdr,sectsty,mathtools}
+\usepackage[shortlabels]{enumitem}
+\usepackage[nobreak=true]{mdframed}
+\usepackage[left=1.25in,right=0.75in,top=1.25in,bottom=2.0in]{geometry}
+
+\newcommand*{\Question}[1]{\section{#1}}
+\newenvironment{Parts}{\begin{enumerate}[label=(\alph*)]}{\end{enumerate}}
+\newcommand*{\Part}{\item}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% UNCOMMENT NEXT LINE FOR SOLUTION BOXES
+ \newcommand*{\solnboxes}{}
+
+%%%%%%%%%%%%%%%%%%%% name/id
+\rfoot{\small Andy Zhang | 3031931319}
+
+%%%%%%%%%%%%%%%%%%%% hw number
+\newcommand*{\hwnum}{12}
+
+
+\ifdefined\solnboxes
+    \newenvironment{Answer}{\vspace{10pt}\begin{mdframed}\textbf{Solution}\\}{\end{mdframed}\vfill\pagebreak[3]}
+\else
+    \newenvironment{Answer}{\vspace{10pt}}{\vfill\pagebreak[3]}
+\fi
+\newcommand*{\MC}[1]{\multicolumn{1}{c}{#1}}
+\newcommand*{\N}{\mathbb{N}}
+\newcommand*{\Z}{\mathbb{Z}}
+\newcommand*{\Q}{\mathbb{Q}}
+\newcommand*{\R}{\mathbb{R}}
+\newcommand*{\C}{\mathbb{C}}
+\newcommand*{\GF}{\text{GF}}
+\newcommand*{\E}{\textbf{E}}
+\newcommand*{\Var}[1]{\text{Var}(#1)}
+\newcommand*{\var}[1]{\text{var}(#1)}
+\newcommand*{\cov}[1]{\text{cov}(#1)}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
+
+\pagestyle{fancy}
+\headheight=75pt
+\sectionfont{\Large\fontfamily{lmdh}\selectfont}
+
+\renewcommand{\headrulewidth}{6pt}
+\chead{\rule{\textwidth}{6pt} \vspace{20pt}\\}
+\lhead{\setstretch{1.05}\Large\fontfamily{lmdh}\selectfont
+CS 70        \tabto{96pt} Discrete Mathematics and Probability Theory\smallskip\\
+Spring 2017  \tabto{96pt} Rao}
+\rhead{\huge     \fontfamily{lmdh}\selectfont     HW \hwnum}
+
+\lfoot{\small CS 70, Spring 2017, HW \hwnum}
+\begin{document}
+
+\Question{Sundry} 
+\vspace{10pt}
+%%%%%%%%%%%%%%%%%%%% SUNDRY PART HERE
+\noindent Nadir Akhtar: nadir\_akhtar@berkeley.edu\\
+Rustie Lin: rustielin@berkeley.edu\\
+Sukrit Arora: sukrit.arora@berkeley.edu\\
+
+I certify that all solutions are entirely in my words and that I have not looked at another student’s
+solutions. I have credited all external sources in this write up. - Andy Zhang
+%%%%%%%%%%%%%%%%%%%% END SUNDRY
+\vfill\pagebreak[3]
+
+%%%%%%%%%%%%%%%%%%%% QUESTIONS START HERE
+\Question{Quadratic Regression}
+
+In this question, we will find the best quadratic estimator of $Y$ given $X$. First, some notation: let $\mu_i$ be the $i$th moment of $X$, i.e.\ $\mu_i = \E[X^i]$. Also, define $\beta_1 = \E[XY]$ and $\beta_2 = \E[X^2 Y]$. For simplicity, we will assume that $\E[X] = \E[Y] = 0$ and $\E[X^2] = \E[Y^2] = 1$. (Note that this poses no loss of generality, because we can always transform the random variables by subtracting their means and dividing by their standard deviations.) We claim that the best quadratic estimator of $Y$ given $X$ is
+\[
+  \hat{Y} = \frac{1}{\mu_3^2 - \mu_4 + 1} (a X^2 + b X + c)
+\]
+where
+\begin{align*}
+  a &= \mu_3 \beta_1 - \beta_2, \\
+  b &= (1 - \mu_4) \beta_1 + \mu_3 \beta_2, \\
+  c &= -\mu_3 \beta_1 + \beta_2.
+\end{align*}
+Your task is to prove the Projection Property for $\hat{Y}$.
+
+\begin{Parts}
+  \Part Prove that $\E[Y - \hat{Y}] = 0$.
+  \begin{Answer}
+    $$\E(Y)-\E(\hat{Y})$$
+    $$=-\E(\frac{a X^2 + b X + c}{\mu_3^2 - \mu_4 + 1})$$
+    $$=-\frac{a}{\mu_3^2 - \mu_4 + 1}\E(X^2)-\frac{b}{\mu_3^2 - \mu_4 + 1}\E(X)-\frac{c}{\mu_3^2 - \mu_4 + 1}\E(1)$$
+    $$=-\frac{a}{\mu_3^2 - \mu_4 + 1}\E(X^2)-\frac{c}{\mu_3^2 - \mu_4 + 1}\E(1)$$
+    $$=\frac{-\mu_3\beta_1+\beta_2}{\mu_3^2 - \mu_4 + 1}+\frac{\mu_3\beta_1-\beta_2}{\mu_3^2 - \mu_4 + 1}$$
+    $$=\frac{0}{\mu_3^2 - \mu_4 + 1}$$
+    $$=0$$
+  \end{Answer}
+
+  \Part Prove that $\E[(Y - \hat{Y})X] = 0$.
+  \begin{Answer}
+    $$\E(XY)-\E(X\hat{Y})$$
+    $$=\beta_1-\E(\frac{aX^3+bX^2+cX}{\mu_3^2 - \mu_4 + 1})$$
+    $$=\beta_1-(\frac{a\mu_3}{\mu_3^2 - \mu_4 + 1}+\frac{b}{\mu_3^2 - \mu_4 + 1}\E(X^2))$$
+    $$=\beta_1-(\frac{\mu_3^2\beta_1-\mu_3\beta_2+(1-\mu_4)\beta_1+\mu_3\beta_2}{\mu_3^2 - \mu_4 + 1})$$
+    $$=\beta_1-\beta_1(\frac{\mu_3^2 - \mu_4 + 1}{\mu_3^2 - \mu_4 + 1})$$
+    $$=\beta_1-\beta_1$$
+    $$=0$$
+  \end{Answer}
+  
+  \Part Prove that $\E[(Y - \hat{Y})X^2] = 0$.
+  \begin{Answer}
+    $$\E(X^2Y)-\E(X^2\hat{Y})$$
+    $$=\beta_2-\E(\frac{aX^4+bX^3+cX^2}{\mu_3^2 - \mu_4 + 1})$$
+    $$=\beta_2-\E(\frac{a\mu_4+bu_3+c}{\mu_3^2 - \mu_4 + 1})$$
+    $$=\beta_2-\frac{\mu_3\mu_4\beta_1-\mu4\beta_2+\mu_3\beta_1(1-\mu_4)+\mu_3^2\beta_2-\mu_3\beta_1+\beta_2}{\mu_3^2 - \mu_4 + 1})$$
+    $$=\beta_2-\beta_2(\frac{\mu_3^2 - \mu_4 + 1}{\mu_3^2 - \mu_4 + 1})$$
+    $$=\beta_2-\beta_2$$
+    $$=0$$
+  \end{Answer}  
+\end{Parts}
+Any quadratic function of $X$ is a linear combination of $1$, $X$, and $X^2$. Hence, these equations together imply that $Y - \hat{Y}$ is orthogonal to any quadratic function of $X$, and so $\hat{Y}$ is the best quadratic estimator of $Y$.
+
+
+\Question{Projection Property}
+
+Use the Projection Property to answer the following questions.
+
+\begin{Parts}
+  \Part Prove or disprove: for any function $\phi$, $\E[\E[Y \mid X] \phi(X)] = 0$.
+  \begin{Answer}
+        Counterexample: Let $\phi(X)=1$ and $\E(Y)=1$ \\
+        From the proof of Lemma 26.1 (a) in Note 26:
+        $$\E(\E(Y|X)\phi(X))=\E(Y\phi(X))$$
+        $$=\E(Y(1))$$
+        $$=1\not = 0$$
+  \end{Answer}
+
+  \Part Prove or disprove: $\E[(Y - \E[Y \mid X]) L[Y \mid X]] = 0$.
+  \begin{Answer}
+    Let $\phi=L(Y|X)$.
+    $$\E((Y - \E(Y \mid X)) L(Y \mid X)) = \E(Y\phi)-\E(\E(Y|X)\phi)$$
+    From part (a), $\E(\E(Y|X)\phi)=\E(Y\phi)$. Thus,
+    $$\E(Y\phi)-\E(\E(Y|X)\phi)=\E(Y\phi)-\E(Y\phi)$$
+    $$=0$$
+  \end{Answer}
+  
+  \Part Prove the following: $\E[X^2 \mid Y] = \E[(X - \E[X \mid Y])^2 \mid Y] + \E[X \mid Y]^2$. [\textit{Hint}: In the expression $\E[X^2 \mid Y]$, try replacing $X$ with $(X - \E[X \mid Y]) + \E[X \mid Y]$.]
+  \begin{Answer}
+    $$\E(X^2|Y)=\E(((X-\E(X|Y))+\E(X|Y))^2|Y)$$
+    $$=\E((X-\E(X|Y))^2+2\E(X|Y)(X-\E(X|Y))+\E(X|Y)^2|Y)$$
+    $$=\E((X-\E(X|Y))^2+\E(X|Y)^2|Y)$$
+    $$=\E((X-\E(X|Y))^2|Y)+\E(X|Y)^2$$
+  \end{Answer}
+  
+  \Part We have already shown that $\E[\E[Y \mid X]] = \E[Y]$. Prove that $\E[L[Y \mid X]] = \E[Y]$.
+  \begin{Answer}
+    $$\E(L(X|Y))=\E(\E(Y)+\frac{\cov{X,Y}}{\var{X}}(X-\E(X)))$$
+    $$=\E(\E(Y)+\frac{\E(XY)-\E(X)\E(Y)}{\E(X^2)-\E(X)^2}(X-\E(X)))$$
+    $$=\E(\E(Y)+\frac{X\E(XY)-\E(X)\E(XY)-X\E(X)\E(Y)+\E(X)^2\E(Y)}{\E(X^2)-\E(X)^2})$$
+    $$=\E(Y)+\frac{\E(X)\E(XY)-\E(X)\E(XY)-\E(X)^2\E(Y)+\E(X)^2\E(Y)}{\E(X^2)-\E(X)^2}$$
+    $$=\E(Y)+\frac{0}{\E(X^2)-\E(X)^2}$$
+    $$=\E(Y)$$
+  \end{Answer}
+
+  \Part Prove the following property of conditional expectation:
+  \begin{align*}
+      \E[ \E[Z \mid X, Y] \mid X ] = \E[Z \mid X].
+  \end{align*}
+  [\textit{Hint}: Take a closer look at the method by which we prove properties of conditional expectation in Note 26.]
+  \begin{Answer}
+  From orthogonality,
+    $$\E((Z-\E(Z|X,Y))\phi(X,Y))=0$$
+    $$\E(Z\phi(X))=\E(\E(Z|X,Y)\phi(X))$$
+    and
+    $$\E((Z-\E(Z|X))\phi(X))=0$$
+    $$\E(Z\phi(X))=\E(\E(Z|X)\phi(X))$$
+    Thus,
+    $$\E(\E(Z|X,Y)\phi(X))=\E(\E(Z|X)\phi(X)$$
+    $$\E((\E(Z|X,Y)-\E(Z|X))\phi(X))=0$$
+    Thus, due to MMSE orthogonality, $\E(Z|X)=\E(\E(Z|X,Y)|X)$:
+  \end{Answer}
+\end{Parts}
+
+
+\Question{Balls in Bins Estimation}
+
+We throw $n > 0$ balls into $m \geq 2$ bins. Let $X$ and $Y$ represent the number of balls that land in bin $1$ and $2$ respectively.
+
+\begin{Parts}
+  \Part Calculate $\E[Y \mid X]$. [\textit{Hint}: Your intuition may be more useful than formal calculations.]
+  \begin{Answer}
+    $\E(Y|X=x)=\frac{n-x}{m-1}$ where $x$ is the number of balls thrown into the first bin.
+  \end{Answer}
+  
+  \Part What are $L[Y \mid X]$ and $Q[Y \mid X]$ (where $Q[Y \mid X]$ is the best quadratic estimator of $Y$ given $X$)? [\textit{Hint}: Your justification should be no more than two or three sentences, no calculations necessary! Think carefully about the meaning of the MMSE.]
+  \begin{Answer}
+    $\L(Y|X)=Q(Y|X)=\frac{n-X}{m-1}$ because the MMSE is defined as $g(x)=E(Y|X)$. If the quadratic estimator is linear, that means that the best linear estimator must also equal that same function.
+  \end{Answer}
+  
+  \Part Unfortunately, your friend is not convinced by your answer to the previous part. Compute $\E[X]$ and $\E[Y]$.
+  \begin{Answer}
+    $\E(X)=\E(Y)=\frac{n}{m}$
+  \end{Answer}
+
+  \Part Compute $\var(X)$.
+  \begin{Answer}
+    $$\var{X}=\E(X^2)-\E(X)^2$$
+    $$=\frac{n}{m}+\frac{n(n-1)}{m^2}-\frac{n^2}{m^2}$$
+    $$=\frac{n(m-1)}{m^2}$$
+  \end{Answer}
+  
+  \Part Compute $\cov(X, Y)$.
+  \begin{Answer}
+    $$\cov{X,Y}=\E(XY)-\E(X)\E(Y)$$
+    $$=\frac{n(n-1)}{m^2}-\frac{n^2}{m^2}$$
+    $$=-\frac{n}{m^2}$$
+  \end{Answer}
+  
+  \Part Compute $L[Y \mid X]$ using the formula. Ensure that your answer is the same as your answer to part (b).
+  \begin{Answer}
+    $$\L(X|Y)=\E(Y)+\frac{\cov{X,Y}}{\var{X}}(X-\E(X))$$
+    $$=\frac{n}{m}-\frac{nm^2}{m^2n(m-1)}(X-\frac{n}{m})$$
+    $$=\frac{n}{m}-\frac{1}{m-1}(X-\frac{n}{m})$$
+    $$=\frac{n-X}{m-1}$$
+  \end{Answer}
+\end{Parts}
+
+
+\Question{Swimsuit Season}
+
+In the swimsuit industry, it is well-known that there is a ``swimsuit season''. During this time, swimsuit sales skyrocket!
+
+We will model this with a random variable $X$ which is either $\lambda_L$ or $\lambda_H$ with equal probability; $\lambda_L$ represents the mean number of customers in a day when swimsuits are not in season, and $\lambda_H$ represents the mean number of customers during swimsuit season. So, $\lambda_L$ is the ``low rate'' and $\lambda_H$ is the ``high rate''. The number of customer arrivals $Y$ on a particular day is modeled as a Poisson random variable with mean $X$.
+
+You observe $Y$ customers on a certain day, and the task is to estimate $X$.
+
+\begin{Parts}    
+  \Part What is $L[X \mid Y]$?
+  \begin{Answer}
+    $$L(X|Y)=\E(X)+\frac{\cov{X,Y}}{\var{Y}}(Y-\E(Y))$$
+    $$=\frac{\lambda_L+\lambda_H}{2}+\frac{\E(XY)-\E(X)\E(Y)}{\E(X^2)-\E(X)^2}(Y-\frac{\lambda_L+\lambda_H}{2})$$
+    $$=\frac{\lambda_L+\lambda_H}{2}+\frac{\frac{\lambda_L^2+\lambda_H^2}{2}-\frac{(\lambda_L+\lambda_H)^2}{4}}{\frac{\lambda_L^2+\lambda_H^2}{2}+\frac{\lambda_L+\lambda_H}{2}-\frac{(\lambda_L+\lambda_H)^2}{4}}(Y-\frac{\lambda_L+\lambda_H}{2})$$
+    $$=\frac{\lambda_L+\lambda_H}{2}+\frac{(\lambda_L-\lambda_H)^2}{(\lambda_L-\lambda_H)^2+2\lambda_L+2\lambda_H}(Y-\frac{\lambda_L+\lambda_H}{2})$$
+    
+  \end{Answer}
+
+  \Part What is $\E[X \mid Y]$?
+  \begin{Answer}
+    $$\E(X|Y=y)=\sum_xx\frac{\Pr(X=x,Y=y)}{\Pr(Y=y)}$$
+    $$=\lambda_L\frac{\Pr(X=\lambda_L,Y=y)}{\Pr(Y=y)}+\lambda_H\frac{\Pr(X=\lambda_H,Y=y)}{\Pr(Y=y)}$$
+    $$=\frac{\lambda_L\Pr(X=\lambda_L,Y=y)+\lambda_H\Pr(X=\lambda_H,Y=y)}{\Pr(X=\lambda_L,Y=y)+\Pr(X=\lambda_H,Y=y)}$$
+    $$=\frac{\frac{\lambda_L^{y+1}e^{-\lambda_L}+\lambda_H^{y+1}e^{-\lambda_H}}{y!}}{\frac{\lambda_L^ye^{-\lambda_L}+\lambda_H^ye^{-\lambda_H}}{y!}}$$
+    $$=\frac{\lambda_L^{y+1}e^{-\lambda_L}+\lambda_H^{y+1}e^{-\lambda_H}}{\lambda_L^{y}e^{-\lambda_L}+\lambda_H^{y}e^{-\lambda_H}}$$
+  \end{Answer}  
+\end{Parts}
+
+
+\Question{Political War}
+
+Initially, there are $d$ Democrats and $r$ Republicans in a room. They begin to argue. On each day, a random person in the room leaves and returns with an additional member of his or her political party; that is, either a Democrat will leave and return with a Democrat friend, or a Republican will leave and return with a Republican friend. Let $D_n$ denote the number of democrats in the room at the end of the $n$th day. Let $D_0 = d$.
+
+\begin{Parts}
+  \Part Find $\E[D_n \mid D_{n-1}]$.
+  \begin{Answer}
+    $$\E(D_n|D_{n-1})=D_{n-1}(1-\frac{D_{n-1}}{d+r+n-1})+(D_{n-1}+1)(\frac{D_{n-1}}{d+r+n-1})$$
+    $$=D_{n-1}-\frac{D_{n-1}^2}{d+r+n-1}+\frac{D_{n-1}^2}{d+r+n-1}+\frac{D_{n-1}}{d+r+n-1}$$
+    $$=D_{n-1}(1+\frac{1}{d+r+n-1})$$
+  \end{Answer}
+  
+  \Part Find $\E[D_n]$ using the law of iterated expectation.
+  \begin{Answer}
+    $$\E(D_n)=\E(\E(D_n|D_{n-1}))$$
+    $$=\E(D_{n-1}(1+\frac{1}{d+r+n-1}))$$
+    $$=(1+\frac{1}{d+r+n-1})\E(D_{n-1})$$
+    $$=(\frac{d+r+n}{d+r+n-1})(\frac{d+r+n-1}{d+r+n-2})\dots(\frac{d+r+1}{d+r})D_0$$
+    $$=\frac{(d+r+n)d}{d+r}$$
+  \end{Answer}
+  
+  \Part What is the expected fraction of Democrats in the room at the end of day $n$?
+  \begin{Answer}
+    $$\frac{\E(D_n)}{d+r+n}=\frac{\frac{(d+r+n)d}{d+r}}{d+r+n}$$
+    $$=\frac{d}{d+r}$$
+  \end{Answer}
+\end{Parts}
+
+
+\Question{Optimal Gambling}
+
+In even-money gambling games, you bet a fixed amount of money. If you win the game, you are given back the money that you bet, and you receive an additional amount of money equal to your original bet. If you lose the game, you lose the amount of money you bet.
+
+\begin{Parts}    
+  \Part You are gambling and your probability of winning, on each round, is $1/2 < p < 1$: the game is in your favor! You use the following strategy: on each round, you will bet a fraction $q$ of the money you have at the start of the round. Let $X_n$ denote the amount of money you have on round $n$. $X_0$ represents your initial assets and is a constant value. What is $\E[X_n]$?
+  \begin{Answer}
+    $$\E(X_n)=\E(\E(X_n|X_{n-1})$$
+    $$=\E(p(X_{n-1}+qX_{n-1})+(1-p)(X_{n-1}-qX_{n-1}))$$
+    $$=\E((1+2pq-q)X_{n-1})$$
+    $$=(1+2pq-q)\E(X_{n-1})$$
+    $$=(1+2pq-q)^{n}X_0$$
+  \end{Answer}
+  
+  \Part What value of $q$ will maximize $\E[X_n]$? For this value of $q$, what is the distribution of $X_n$? Can you predict what will happen as $n \to \infty$? [\textit{Hint}: Under this betting strategy, what happens if you ever lose a round?]
+  \begin{Answer}
+    $q=1$ Since $\E(X)$ is linear with respect to $q$, selecting the maximum value of $q$ will yield the maximum value of $\E(X)$.
+  \end{Answer}
+  
+  \Part The problem with the previous approach is that we were too concerned about expected value, so our gambling strategy was too extreme. Let's start over: again we will use a gambling strategy in which we bet a fraction $q$ of our money at each round. Express $X_n$ in terms of $n$, $q$, $X_0$, and $W_n$, where $W_n$ is the number of rounds you have won up until round $n$. [\textit{Hint}: Does the order in which you win the games affect your profit?]
+  \begin{Answer}
+    $$X_n=(1+q)^{W_n}(1-q)^{n-W_n}X_0$$
+  \end{Answer}
+  
+  \Part By the law of large numbers, $W_n/n \to p$ as $n \to \infty$. Using this fact, what does $(\log X_n)/n$ converge to as $n \to \infty$?
+  \begin{Answer}
+    $$\lim_{n\to\infty} \frac{\log((1+q)^{W_n}(1-q)^{n-W_n}X_0)}{n}$$
+    $$=\lim_{n\to\infty}\frac{W_n\log(1+q)}{n}+\frac{n\log(1-q)}{n}-\frac{W_n\log(1-q)}{n}+\frac{\log(X_n)}{n}$$
+    $$=p\log(1+q)-p\log(1-q)+\log(1-q)$$
+  \end{Answer}
+  
+  \Part The rationale behind $(\log X_n)/n$ is that if $(\log X_n)/n \to c$, where $c$ is a constant, then that means for large $n$, $X_n$ is roughly $e^{cn}$. Therefore, $c$ is the asymptotic growth rate of your fortune! Find the value of $q$ that maximizes your asymptotic growth rate.
+  \begin{Answer}
+    $$\frac{d}{dq}p\log(1+q)-p\log(1-q)+\log(1-q)=\frac{p}{1+q}+\frac{p}{1-q}-\frac{1}{1-q}$$
+    Setting the above expression equal to 0 and solving for $q$...
+    $$q=2p-1$$
+  \end{Answer}
+  
+  \Part Using the value of $q$ you found in the previous part, compute $\E[X_n]$.
+  \begin{Answer}
+    $$\E(X_n)=(1+2pq-q)^{n}X_0$$
+    $$=(1+2p(2p-1)-(2p-1))^{n}X_0$$
+    $$=(4p^2-4p+2)^{n}X_0$$
+  \end{Answer}
+\end{Parts}
+%%%%%%%%%%%%%%%%%%%% QUESTIONS END HERE
+
+\end{document}

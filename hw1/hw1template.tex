@@ -1,0 +1,354 @@
+\documentclass[11pt]{article}
+
+\usepackage{amsmath,amssymb,amsthm,enumerate,setspace,tabto,fancyhdr}
+\usepackage[shortlabels]{enumitem}
+\usepackage[nobreak=true]{mdframed}
+\usepackage[left=1.25in,right=0.75in,top=1.25in,bottom=2.0in]{geometry}
+\usepackage{sectsty}
+
+\newcommand*{\Question}[1]{\vfill\pagebreak[3]\section{#1}}
+\newenvironment{Parts}{\begin{enumerate}[label=(\alph*)]}{\end{enumerate}}
+\newcommand*{\Part}{\item}
+\newenvironment{Answer}{\vspace{20pt}}{\vspace{20pt}}
+\newcommand*{\MC}[1]{\multicolumn{1}{c}{#1}}
+\newcommand*{\N}{\mathbb{N}}
+\newcommand*{\Z}{\mathbb{Z}}
+\newcommand*{\Q}{\mathbb{Q}}
+\newcommand*{\C}{\mathbb{C}}
+
+\pagestyle{fancy}
+\headheight=75pt
+\sectionfont{\Large\fontfamily{lmdh}\selectfont}
+
+%%%%%%%%%%%%%%%%%%%% name/id
+\rfoot{\small Andy Zhang | 3031931319}
+
+%%%%%%%%%%%%%%%%%%%% hw number
+\newcommand*{\hwnum}{1}
+
+\renewcommand{\headrulewidth}{6pt}
+\chead{\rule{\textwidth}{6pt} \vspace{20pt}\\}
+\lhead{\setstretch{1.05}\Large\fontfamily{lmdh}\selectfont
+CS 70        \tabto{96pt} Discrete Mathematics and Probability Theory\smallskip\\
+Spring 2017  \tabto{96pt} Satish Rao}
+\rhead{\huge     \fontfamily{lmdh}\selectfont     HW \hwnum}
+
+\lfoot{\small CS 70, Spring 2017, HW \hwnum}
+\begin{document}
+
+\section{Sundry} 
+\begin{Answer}
+%%%%%%%%%%%%%%%%%%%% SUNDRY PART HERE
+Nadir Akhtar: nadir\_akhtar@berkeley.edu\\
+Rustie Lin: rustielin@berkeley.edu\\
+Sukrit Arora: sukrit.arora@berkeley.edu\\
+
+I certify that all solutions are entirely in my words and that I have not looked at another student’s
+solutions. I have credited all external sources in this write up. - Andy Zhang
+
+%%%%%%%%%%%%%%%%%%%% END SUNDRY
+\end{Answer}
+
+%%%%%%%%%%%%%%%%%%%% QUESTIONS START HERE
+
+\Question{Short Answer: Logic}
+
+\begin{enumerate}
+\item
+Let the statement, $(\forall x \in R, \exists y \in R) \  G(x,y)$, be
+true for predicate $G(x,y)$ and $R$ being the real numbers. 
+
+Which of the following statements is certainly true, certainly false, or possibly true. 
+
+\begin{enumerate}
+
+\item
+$G(3,4)$
+
+\item
+$(\forall x \in R) G(x,3)$
+
+\item
+$(\exists y) G(3,y)$
+
+\item
+$(\forall y) \neg G(3,y)$
+
+\item
+$(\exists x) G(x,4)$
+
+\end{enumerate}
+
+\begin{Answer}
+(a) Possibly true: we cannot guarantee that the y-value 4 satisfies $G(x,y)$ but we also cannot guarantee that it will render the statement false, $x$ can be any real value\\
+(b) Possibly true: we cannot guarantee that the y-value 3 satisfies $G(x,y)$ but we also cannot guarantee that it will render the statement false\\
+(c) Certainly true: since $x$ can be any real value, 3 can satisfy the x-value\\
+(d) Certainly false: this statement is the negation of (c) which means it will evaluate to false\\
+(e) Possibly true: we cannot guarantee that the y-value 4 satisfies $G(x,y)$ but we also cannot guarantee that it will render the statement false; since $x$ can be any real value, the fact that there exists at least one $x$ will satisfy $G(x,y)$\\
+\end{Answer}
+
+
+\item True or False? \\
+$(\forall x) (\exists y) (P(x,y) \land \neg Q(x,y)) \equiv \neg (\exists x) (\forall y) (P(x,y) \implies Q(x,y))$
+
+\begin{Answer}
+True
+\begin{equation}
+\begin{split}
+      (\forall x)(\exists y)(P(x,y) \land \neg Q(x,y))\\
+   =(\forall x)(\exists y)\neg(\neg P(x,y) \lor Q(x,y))\\
+   =\neg(\forall x)(\exists y)( P(x,y) \implies Q(x,y))
+\end{split}
+\end{equation}
+\end{Answer}
+
+\item True or False? \\
+$(\exists x) ((\forall y P(x,y)) \land (\forall z Q(x,z))) \equiv (\exists x) ((\forall y) (P(x,y)) \land (\exists x)(\forall z) Q(x,z)$
+
+\begin{Answer}
+False\\
+Let $P(x,y)$ be $xy=0$, $Q(x,y)$ be $x+z>z$\\
+The right side is true when choosing x=0 and y=1 but the left side is false because no one value of x can render both P and Q true. 
+\end{Answer}
+
+\item
+Give an expression using terms involving $\lor,\land$ and $\neg$ which is true if and only if
+exactly one of $X,Y$, and $Z$ are true.  (Just to remind you: $(X \land Y \land Z)$ means
+all three of $X$,$Y$,$Z$ are true, $(X \lor Y \lor Z)$ means at least one of $X$,$Y$
+and $Z$ is true.)
+
+\begin{Answer}
+$(X \land \neg Y \land \neg Z) \lor (\neg X \land Y \land \neg Z) \lor (\neg X \land \neg Y \land Z)$$
+
+\end{Answer}
+    
+\end{enumerate}
+
+
+\Question{Equivalent or Not}
+
+Determine whether the following equivalences hold, and give brief justifications for your answers. Clearly state whether or not each pair is equivalent.
+\begin{Parts}
+
+\Part $\forall x~\exists y~\big(P(x)\Rightarrow Q(x,y)\big)~\equiv~\forall x~\big(P(x)\Rightarrow(\exists y~Q(x,y))\big)$
+
+\begin{Answer}
+Equivalent
+$$\forall x~\exists y~\big(P(x)\Rightarrow Q(x,y)\big)~$$
+$$=\forall x \exists y (\neg P(x) \lor Q(x,y))$$
+$$=\forall x (\neg P(x) \lor \exists y Q(x,y))$$
+$$=\forall x (P(x) \implies \exists y Q(x,y))$$
+\end{Answer}
+
+\Part $\neg\exists x~\forall y~\big(P(x,y)\Rightarrow\neg Q(x,y)\big)~\equiv~\forall x~\big( (\exists y~P(x,y)) \land (\exists y~Q(x,y)) \big)$
+
+\begin{Answer}
+Not equivalent
+$$\neg\exists x~\forall y~\big(P(x,y)\Rightarrow\neg Q(x,y)\big)~$$
+$$=\neg \exists x \forall y (\neg P(x,y) \lor \neg Q(x,y))$$
+$$=\exists x \forall y (P(x,y) \land Q(x,y))$$
+$$=\exists x (\forall y P(x,y) \land \forall y Q(x,y))$$
+\end{Answer}
+
+\Part $\forall x~\big((\exists y~Q(x,y))\Rightarrow P(x)\big)~\equiv~\forall x~\exists y~\big(Q(x,y)\Rightarrow P(x)\big)$
+
+\begin{Answer}
+Not equivalent
+$$\forall x~\big((\exists y~Q(x,y))\Rightarrow P(x)\big)~$$
+$$=\forall x (\neg \exists y Q(x,y) \lor P(x))$$
+$$=\forall x (\forall y \neg Q(x,y) \lor P(x))$$
+$$=\forall x \forall y (Q(x,y) \Rightarrow P(x))$$
+\end{Answer}
+
+\end{Parts}
+
+
+\Question{Counterfeit Coins}
+
+\begin{Parts}
+
+\Part
+Suppose you have $9$ gold coins that look identical, but you also know
+one (and only one)
+of them is counterfeit. The counterfeit coin weighs slightly less
+than the others. You also have access to a balance scale to compare
+the weight of two sets of coins --- i.e., it can tell you whether
+one set of coins is heavier, lighter, or equal in weight to another
+(and no other information). However, your access to this scale is
+very limited.
+
+Can you find the counterfeit coin using {\em just two weighings}?
+Prove your answer.
+
+\begin{Answer}
+
+Begin by splitting the pile of coins into 3 arbitrary piles each with 3 coins. Select any two piles and weigh them. If they are the same weight, the counterfeit coin must be in the remaining pile. If they are different, the counterfeit coin must be in the lighter pile. From the pile that contains the counterfeit coin, select any two coins and weigh them. Using the same principle, if the two coins are the same weight, the counterfeit coin is the final remaining coin. If the two coins are a different weight, the counterfeit coin is obviously the lighter one.
+
+\end{Answer}
+
+\Part
+Now consider a generalization of the same scenario described above.
+You now have $3^n$ coins, $n \geq 1$, only one of which is counterfeit.
+You wish to find the counterfeit coin with just $n$ weighings.
+Can you do it? Prove your answer.
+
+
+\begin{Answer}
+
+Use proof by induction on $n$. Let $P(n)$ be "the counterfeit coin can be found in n weighings given $3^n$ coins."
+
+Base case: When $n=1$, there are 3 coins. Thus with one weighing, it can be determined which coin is the counterfeit. (See (a).
+
+Inductive hypothesis: Assume that for some $k$, $P(k)$ is true.
+
+Inductive step: For a group of $3^{k+1}$ coins, split them into three groups of $3^k$ coins. Using one weighing, we can determine which of the three piles contains the counterfeit coin (see (a)). Since we now only have a single pile of $3^k$ coins, by the inductive hypothesis, we can conclude that the counterfeit coin can be found in $k$ additional weighings. Combined with the one original weighing, the coin can thus be found in $k+1$ weighings. Thus $P(k+1)$ holds.
+
+\end{Answer}
+\end{Parts}
+
+\Question{Proof Checker}
+
+\begin{Parts}
+
+\Part \textbf{Claim}: for all $n\in\N$, $(2n+1$ is a multiple of $3) \implies (n^2+1$ is a multiple of $3)$.
+
+\textbf{Proof}: proof by contraposition. Assume $2n+1$ is not a multiple of 3.
+\begin{itemize}
+\item If $n=3k+1$ for $k\in\N$, then $n^2+1=9k^2+6k+2$ is not a multiple of 3.
+\item If $n=3k+2$ for $k\in\N$, then $n^2+1=9k^2+12k+5$ is not a multiple of 3.
+\item If $n=3k+3$ for $k\in\N$, then $n^2+1=9k^2+18k+10$ is not a multiple of 3.
+\end{itemize}
+In all cases, we have concluded $n^2+1$ is not a multiple of 3, so we have proved the claim.
+
+\begin{Answer}
+Incorrect. A correct proof by contraposition would begin with the assumption that $n^2+1$ is not a multiple of 3. 
+
+\end{Answer}
+
+\Part \textbf{Claim}: for all $n\in\N$, $n<2^n$.
+
+\textbf{Proof}: the proof will be by induction on $n$.
+\begin{itemize}
+\item Base case: suppose that $n=0$. $2^0=1$ which is greater than $0$, so the statement is true for $n=0$.
+\item Inductive hypothesis: assume $n<2^n$.
+\item Inductive step: we need to show that $n+1<2^{n+1}$. By the inductive hypothesis, we know that $n<2^n$. Plugging in $n+1$ in place of $n$, we get $n+1<2^{n+1}$, which is what we needed to show. This completes the inductive step.
+\end{itemize}
+
+\begin{Answer}
+Incorrect. The correct inductive hypothesis would be that for an arbitrary $n=k \geq 0$, $k<2^k$. The current inductive hypothesis is assuming the claim is true for all natural numbers and not for a specific cas $k$.
+
+\end{Answer}
+
+\Part \textbf{Claim}: for all $x,y,n\in\N$, if $\max(x,y)=n$, then $x\leq y$.
+
+\textbf{Proof}: the proof will be by induction on $n$.
+\begin{itemize}
+\item Base case: suppose that $n=0$. If $\max(x,y)=0$ and $x,y\in\N$, then $x=0$ and $y=0$, hence $x\leq y$.
+\item Inductive hypothesis: assume that, whenever we have $\max(x,y)=k$, then $x\leq y$ must follow.
+\item Inductive step: we must prove that if $\max(x,y)=k+1$, then $x\leq y$. Suppose $x,y$ are such that $\max(x,y)=k+1$. Then, it follows that $\max(x-1,y-1)=k$, so by the inductive hypothesis, $x-1\leq y-1$. In this case, we have $x\leq y$, completing the induction step.
+\end{itemize}
+
+\begin{Answer}
+Incorrect. The inductive step does not apply on the base case. When $x=0$ or $y=0$, $x-1$ or $y-1$ will be negative and will thus not be in $\N$. Therefore, we cannot assure that $x-1 \leq y-1$
+
+\end{Answer}
+
+\end{Parts}
+
+
+\Question{Preserving Set Operations}
+
+Prove that inverse images preserve set operations but images typically do not:
+
+\begin{enumerate}
+    \item $f^{-1}(A \cup B) = f^{-1}(A) \cup f^{-1}(B)$.
+    \begin{Answer}
+    
+    $f^{-1}(A \cup B)=\{x:f(x)\in A \cup B\}=\{x:f(x) \in A\} \cup\{x:f(x) \in B\}= f^{-1}(A) \cup f^{-1}(B)$
+    \end{Answer}
+
+    \item $f^{-1}(A \cap B) = f^{-1}(A) \cap f^{-1}(B)$.
+    \begin{Answer}
+    
+    $f^{-1}(A \cap B)=\{x:f(x)\in A \cap B\}=\{x:f(x) \in A\} \cap\{x:f(x) \in B\}= f^{-1}(A) \cap f^{-1}(B)$
+    \end{Answer}
+
+    \item $f^{-1}(A \setminus B) = f^{-1}(A) \setminus f^{-1}(B)$.
+    \begin{Answer}
+
+    $f^{-1}(A \setminus B)= \{x:f(x) \in A$ and $x:f(x) \notin B\}=\{x: f(x) \in A\}$and $\{x: f(x) \in B\}=f^{-1}(A) \setminus f^{-1}(B)$
+    \end{Answer}
+
+    \item $f(A \cup B) = f(A) \cup f(B)$.
+    \begin{Answer}
+    
+    $f(A \cup B)=\{f(x): x \in A \cup B\}=\{f(x): x \in A\} \cup \{ f(x): x \in B\}= f(A) \cup f(B) $
+    \end{Answer}
+
+    \item $f(A \cap B) \subseteq f(A) \cap f(B)$, and give an example where equality does not hold.
+    \begin{Answer}
+    
+    Since $(A \cap B) \subseteq A$ and $(A \cap B) \subseteq B$, $f(A \cap B) \subseteq f(A)$ and $f(A \cap B) \subseteq f(B)$. Therefore, for arbitrary $x \in f(A \cap B)$, it also holds that $x \in f(A)$ and $x \in f(B)$. By the definition of intersection, $x \in f(A) \cap f(B)$. Finally, since it is true that $x \in f(A) \cap f(B)$, we can conclude that $f(A \cap B) \subseteq f(A) \cap f(B)$.\\
+    
+    Let $f(x)=x^2$, $A=\{1,2\}$ and $B=\{-1,-2\}$. $f(A \cap B)$ would be $\emptyset$ and $f(A) \cap f(B)$ would be $\{1,4\}$. Thus, it is clear that $\emptyset \subset \{1, 4\}$.
+    \end{Answer}
+
+    \item $f(A \setminus B) \supseteq f(A) \setminus f(B)$, and give an example where equality does not hold.
+    \begin{Answer}
+    
+    Let $z \in f(A)\setminus f(B)$. By set difference, $z \in f(A)$ and $z \notin f(B)$. Therefore, $z=f(x)$ where $x \in A \setminus B$ and $z=f(x) \in  f(A \setminus B)$. Thus, for arbitrary $z \in f(A)\setminus f(B)$,  $f(A)\setminus f(B) \subseteq f(A \setminus B)$. \\
+    
+    Let $f(x)=x^2$, $A=\{-1, 2\}$ and $B=\{1,2\}$. $f(A) \setminus f(B)=\emptyset$ while $f(A \setminus B)=\{1\}$. Thus, it is clear that $\emptyset \subset \{1\}$. 
+    \end{Answer}
+
+\end{enumerate}
+
+\clearpage
+
+\Question{Grid Induction}
+
+A bug is walking on an infinite 2D grid.
+He starts at some location $(i, j) \in \N^2$ in the first quadrant,
+and is constrained to stay in the first quadrant (say, by walls along the x and
+y axes).
+Every second he does one of the following (if possible):
+\begin{enumerate}[(i)]
+  \item Jump one inch down, to $(i, j-1)$.
+  \item Jump one inch left, to $(i-1, j)$.
+\end{enumerate}
+For example, if he is at $(5, 0)$, his only option is to jump left to $(4, 0)$.
+
+Prove that no matter how he jumps, he will always reach $(0, 0)$ in finite time.
+
+\begin{Answer}
+If the bug starts at $(i,j) \in \N^2$, then it will reach (0,0) in $n=i+j$ seconds. Proceed by induction on $n$. For the base case of $n=0$, we observe that the bug is starting on (0,0) and thus reaches it in 0 time. Assume the statement holds for some arbitrary $n=k \geq 0$ and that the bug starts at some $(i,j) \in \N^2$ where $i+j=k+1$. Depending on its initial movement, the bug will either be at $(i, j-1)$ or $(i-1, j)$. For both cases however, $i+j-1=k$ which means the bug will reach (0,0) after $k+1$ seconds. Therefore, if the bug starts at $(i, j)$, it will reach (0,0) in $k+1=i+j$ seconds. 
+
+\end{Answer}
+
+\clearpage 
+
+\Question{A Tricky Game}
+
+\begin{Parts}
+\Part CS 70 course staff invite you to play a game: Suppose there are $n^2$ coins in a $n\times n$ grid ($n > 0$), each with their heads side up. In each move, you can pick one of the $n$ rows or columns and flip over all of the coins in that row or column. However, you are not allowed to re-arrange them in any other way. You have an unlimited number of moves. If you happen to reach a configuration where there is exactly one coin with its tails side up, you will win the game. Are you able to win this game? Find all values of $n$ for which you can win the game, and prove your statement. In other words, for each value of $n$ that you listed, prove that you can win the game; then, prove that it is impossible to win the game for all other values of $n$.
+
+\begin{Answer}
+We proceed by direct proof. We are able to derive a function $f(n,c,r)$ which calculates the number of tails in an $n \times n$ grid after $c$ column flips and $r$ row flips given that $r \leq n$, $c \leq n$, and $n,c,r\in \N$: $$f(n,c,r)=cn+cr-2cr$$ To meet the win condition, the value of $f(n,c,r)$ must equal 1. Therefore, after setting the function equal to 1 and rearranging, we arrive at the following: $$1=cn+cr-2cr$$ $$1=cn+cr-cr-cr$$ $$1=c(n-r)+r(n-c)$$ Since we are restricted to $\N$, we are presented with two cases. Either $c(n-r)=1$ and $r(n-c)=0$ or $c(n-r)=0$ and $r(n-c)=1$. 
+\begin{enumerate}
+\item $c(n-r)=1$ and $r(n-c)=0$, thus $r=0$ or $c=n$. In fact, $r=0$ $and$ $c=n$ because if only $r=0$ or $c=n$, we will reach that n is equal to either $\frac{1}{c}$ or $\frac {1}{n}+r$, respectively; both of these values are non-natural values so it must be the case that both equalities hold. By substituting $r=0$ and $c=n$ into $c(n-r)$, we conclude that $n=1$.
+\item $c(n-r)=0$ and $r(n-c)=1$, thus $r=n$ or $c=0$. The same logic from (a) holds and we once again reach $n=1$. 
+\end{enumerate} Thus, because $n=1$ for either case, we can conclude that the only grid size where a 1-tail configuration is possible is in a $1 \times 1$ grid.
+
+\end{Answer}
+
+\Part (Optional) Now, suppose we change the rules: If the number of ``tails'' is between 1 and $n-1$, you win. Are you able to win this game? Does that apply to all $n$? Prove your answer.
+
+\begin{Answer}
+
+
+\end{Answer}
+
+\end{Parts}
+%%%%%%%%%%%%%%%%%%%% QUESTIONS END HERE
+
+\end{document}

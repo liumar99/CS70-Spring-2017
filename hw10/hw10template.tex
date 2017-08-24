@@ -1,0 +1,306 @@
+\documentclass[11pt]{article}
+
+\usepackage{amsmath,amssymb,amsthm,setspace,tabto,fancyhdr,sectsty,mathtools}
+\usepackage[shortlabels]{enumitem}
+\usepackage[nobreak=true]{mdframed}
+\usepackage[left=1.25in,right=0.75in,top=1.25in,bottom=2.0in]{geometry}
+
+\newcommand*{\Question}[1]{\section{#1}}
+\newenvironment{Parts}{\begin{enumerate}[label=(\alph*)]}{\end{enumerate}}
+\newcommand*{\Part}{\item}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% UNCOMMENT NEXT LINE FOR SOLUTION BOXES
+ \newcommand*{\solnboxes}{}
+
+%%%%%%%%%%%%%%%%%%%% name/id
+\rfoot{\small Andy Zhang | 3031931319}
+
+%%%%%%%%%%%%%%%%%%%% hw number
+\newcommand*{\hwnum}{10}
+
+
+\ifdefined\solnboxes
+    \newenvironment{Answer}{\vspace{10pt}\begin{mdframed}\textbf{Solution}\\}{\end{mdframed}\vfill\pagebreak[3]}
+\else
+    \newenvironment{Answer}{\vspace{10pt}}{\vfill\pagebreak[3]}
+\fi
+\newcommand*{\MC}[1]{\multicolumn{1}{c}{#1}}
+\newcommand*{\N}{\mathbb{N}}
+\newcommand*{\Z}{\mathbb{Z}}
+\newcommand*{\Q}{\mathbb{Q}}
+\newcommand*{\R}{\mathbb{R}}
+\newcommand*{\C}{\mathbb{C}}
+\newcommand*{\GF}{\text{GF}}
+\newcommand*{\E}{\textbf{E}}
+\newcommand*{\Var}[1]{\text{Var}(#1)}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
+
+\pagestyle{fancy}
+\headheight=75pt
+\sectionfont{\Large\fontfamily{lmdh}\selectfont}
+
+\renewcommand{\headrulewidth}{6pt}
+\chead{\rule{\textwidth}{6pt} \vspace{20pt}\\}
+\lhead{\setstretch{1.05}\Large\fontfamily{lmdh}\selectfont
+CS 70        \tabto{96pt} Discrete Mathematics and Probability Theory\smallskip\\
+Spring 2017  \tabto{96pt} Rao}
+\rhead{\huge     \fontfamily{lmdh}\selectfont     HW \hwnum}
+
+\lfoot{\small CS 70, Spring 2017, HW \hwnum}
+\begin{document}
+
+\Question{Sundry} 
+\vspace{10pt}
+%%%%%%%%%%%%%%%%%%%% SUNDRY PART HERE
+\noindent Nadir Akhtar: nadir\_akhtar@berkeley.edu\\
+Rustie Lin: rustielin@berkeley.edu\\
+Sukrit Arora: sukrit.arora@berkeley.edu\\
+
+I certify that all solutions are entirely in my words and that I have not looked at another student’s
+solutions. I have credited all external sources in this write up. - Andy Zhang
+%%%%%%%%%%%%%%%%%%%% END SUNDRY
+\vfill\pagebreak[3]
+
+%%%%%%%%%%%%%%%%%%%% QUESTIONS START HERE
+\Question{How Many Kings?}
+
+Suppose that you draw 3 cards from a standard deck without replacement. Let $X$ denote the number of kings you draw.
+\begin{enumerate}[(a)]
+    \item What is $\Pr(X = 0)$?
+    \begin{Answer}
+    $\frac{\binom{48}{3}}{\binom{52}{3}}$
+    \end{Answer}
+
+    \item What is $\Pr(X = 1)$?
+    \begin{Answer}
+    $\frac{4\binom{48}{2}}{\binom{52}{3}}$
+    \end{Answer}
+
+    \item What is $\Pr(X = 2)$?
+    \begin{Answer}
+    $\frac{48\binom{4}{2}}{\binom{52}{3}}$
+    \end{Answer}
+
+    \item What is $\Pr(X = 3)$?
+    \begin{Answer}
+    $\frac{\binom{4}{3}}{\binom{52}{3}}$
+    \end{Answer}
+
+    \item Do the answers you computed in parts (a) through (d) add up to 1, as expected?
+    \begin{Answer}
+    Yes. $\frac{\binom{48}{3}}{\binom{52}{3}}+\frac{4\binom{48}{2}}{\binom{52}{3}}+\frac{48\binom{4}{2}}{\binom{52}{3}}+\frac{\binom{4}{3}}{\binom{52}{3}}=1$
+    
+    \end{Answer}
+
+    \item Compute $\E(X)$ from the definition of expectation.
+    \begin{Answer}
+    $\E(X)=0\frac{\binom{48}{3}}{\binom{52}{3}}+1\frac{4\binom{48}{2}}{\binom{52}{3}}+2\frac{48\binom{4}{2}}{\binom{52}{3}}+3\frac{\binom{4}{3}}{\binom{52}{3}}=\frac{3}{13}$
+    \end{Answer}
+
+    \item Suppose we define indicators $X_i$, $1 \leq i \leq 3$, where $X_i$ is the indicator variable that equals 1 if the $i$th card is a king and 0 otherwise. Compute $\E(X)$.
+    \begin{Answer}
+    $\E(X)=\sum_{i=1}^3 \E(X_i)=3\E(X_0)=3\frac{1}{13}=\frac{3}{13}$
+    \end{Answer}
+
+    \item Are the $X_i$ indicators independent? How does this affect your answer to part (g)?
+    \begin{Answer}
+    They are not independent. However, due to linearity of expectation, our answer in part (g) will not change.
+    \end{Answer}
+\end{enumerate}
+
+
+\Question{Sisters}
+
+Consider a family with $n$ children, each with a 50\% chance of being male or female. Let $X$ be the total number of sisters that the male children have, and let $Y$ be the total number of sisters that the female children have (for example, if $n = 3$ and there are two boys and one girl, then $X = 2$ and $Y = 0$). Find expressions for $\E(X)$ and $\E(Y)$ in terms of $n$. Do we expect that boys have more sisters or girls have more sisters?
+
+\textit{[Hint: Define a random variable $B$ to denote the number of boys, find an expression for $X$ as a function of $B$, and apply linearity of expectation. Use a similar approach for girls.]}
+
+\begin{Answer}
+Let $B$ represent the number of boys and $G$ represent the number of girls. Then $\E(X)=\E(B(n-B))$ and $\E(Y)=\E(G(G-1))$. By linearity of expectation:
+$$\E(X)=n\E(B)-\E(B^2)=\frac{1}{2}n^2-(\frac{1}{4}n+\frac{1}{4}n^2)=\frac{1}{4}n^2-\frac{1}{4}n$$
+$$\E(Y)=\E(G^2)-\E(G)=\frac{1}{4}n+\frac{1}{4}n^2-\frac{1}{2}n=\frac{1}{4}n^2-\frac{1}{4}n$$
+Thus, boys and girls are expected to have the same number of sisters.
+\end{Answer}
+
+\Question{Unbiased Variance Estimation}
+
+We have a random variable $X$ and want to estimate its variance,
+$\sigma^2$ and mean, $\mu$, by sampling from it.  In this problem, we
+will derive an ``unbiased estimator'' for the variance.
+
+\begin{Parts}
+  \Part We define a random variable $Y$ that corresponds to drawing $n$
+    values from the distribution for $X$ and averaging, or $Y =
+    (X_1 + \ldots + X_n)/n$.  What is $\E(Y)$?  Note that if
+    $\E(Y) = \E(X)$ then $Y$ is an unbiased estimator of $\mu = 
+    \E(X)$. {\em Hint: This should not be difficult.}
+  \begin{Answer}
+    $\E(X)$
+  \end{Answer}
+
+  \Part Now let's assume the actual mean is $0$ as variance doesn't
+    change when one shifts the mean.
+
+  Before attempting to define an estimator for variance, show that
+  $\E(Y^2) = \sigma^2/n$.  
+  \begin{Answer}
+    $$\E(Y^2)=\E((\frac{X_1+...+X_n}{n})^2)$$
+    $$=\frac{1}{n^2}\E((X_1+...+X_n)^2)$$
+    $$=\frac{1}{n^2}(\sum_i^n \E(X_i^2)+\sum_{i\not=j}^n \E(X_iX_j))$$
+    $$=\frac{n\E(X^2)}{n^2}$$
+    $$=\frac{\Var{X}+\E(X)^2}{n}$$
+    $$=\frac{\sigma^2}{n}$$
+  \end{Answer}
+
+
+  \Part In practice, we don't know the mean of $X$ so following
+    part (a), we estimate it as $Y$. With this in mind, we consider the random variable $Z =
+    \sum_{i=1}^n (X_i -Y)^2$.  What is $\E(Z)$?
+  \begin{Answer}
+    $$\E(Z)=\E(\sum_{i=1}^n(X_i-Y)^2)$$
+    $$=\sum_{i=1}^n\E(X_i^2)-\E(nY^2)$$
+    $$=\sum_{i=1}^n(\sigma^2+\mu^2)-n(\frac{\sigma^2}{n}+\mu^2)$$
+    $$=n\sigma^2+n\mu^2-\sigma^2-n\mu^2$$
+    $$=(n-1)\sigma^2$$
+  \end{Answer}
+
+  \Part What is a good unbiased estimator for the $\Var{X}$?
+  \begin{Answer}
+    $\frac{\E(Z)}{n-1}$
+  \end{Answer}
+
+  \Part How does this differ from what you might expect? Why?
+  (Just tell us your intuition here, it is all good!)
+  \begin{Answer}
+    I expected the estimator to simply be $\frac{\E(Z)}{n}$ however this is not the case because evaluation of $\Var{Y}$ for every possible sample of $X$ does not yield the value given by $\frac{\E(Z)}{n}$.
+  \end{Answer}
+\end{Parts}
+
+
+\Question{Markov Bound for Coupon Collectors} 
+Suppose you are trying to collect a set of $n$ different baseball cards. You get the cards by buying boxes of cereal: each box contains exactly one card, and it is equally likely to be any of the $n$ cards. You are interested in finding $m$, a lower bound on the number of boxes you should buy to ensure that the probability of you collecting all $n$ cards is at least $\frac{1}{2}$. In class, we used the Union Bound to show that it suffices to have $m \geq n \ln (2n)$.
+
+Use Markov's Inequality to find a different (weaker) lower bound on $m$.
+
+\begin{Answer}
+Let $X$ be a random variable representing the number of boxes needed to be purchased until all $n$ cards are collected.
+$$\Pr(X\geq m)\leq \frac{\E(X)}{m}$$
+$$\Pr(X< m)\leq 1-\frac{\E(X)}{m}$$
+$$\frac{1}{2} \leq 1-\frac{\E(X)}{m}$$
+$$m \geq 2\E(X)$$ 
+$$m \geq 2n\sum_{i=1}^n\frac{1}{i}$$
+\end{Answer}
+
+\Question{Safeway Monopoly Cards} 
+It's that time of the year again - Safeway is offering its Monopoly Card promotion. Each time you visit Safeway, you are given one of $n$ different Monopoly Cards with equal probability. You need to collect them all to redeem the grand prize.
+
+\begin{enumerate}[(a)]
+    \item Let $X$ be the number of visits you have to make before you can redeem the grand prize. Show that $\Var{X} = n^2\left(\sum_{i=1}^n i^{-2}\right) - \E(X)$. \textit{[Hint: Does this remind you of a particular problem? What is the expectation for this problem?]}
+    \begin{Answer}
+    $$\Var{X}=\sum_{i=1}^n\Var{X_i}$$
+    $$=\sum_{i=1}^n \frac{ni}{(n-i)^2}$$
+    $$=\sum_{i=1}^n \frac{n(n-i)}{i^2}$$
+    $$=n^2\sum_{i=1}^n \frac{1}{i^2}-n\sum_{i=1}^n\frac{1}{i}$$
+    $$=n^2\sum_{i=1}^n i^{-2}-\E(X)$$
+    \end{Answer}
+  
+    \item The series $\sum_{i=1}^\infty i^{-2}$ converges to the constant value $\pi^2/6$. Using this fact and Chebyshev's Inequality, find a lower bound on $\beta$ for which the probability you need to make more than $\E(X) + \beta n$ visits is less than $1/100$, for large $n$. \textit{[Hint: Use the approximation $\sum_{i = 1}^n i^{-1} \approx \ln n$ as $n$ grows large.]}
+    \begin{Answer}
+    $$\Pr(|X-\E(X)|\geq \beta n)\leq \frac{\Var{X}}{(\beta n)^2} \leq \frac{1}{100}$$
+    $$\beta^2 \geq \frac{100\Var{X}}{n^2})$$
+    $$\beta \geq \frac{10}{n}\sqrt{\Var{X}}$$
+    $$\beta \geq \frac{10}{n}\sqrt{n^2\sum_{i=1}^n \frac{1}{i^2}-n\sum_{i=1}^n\frac{1}{i}}$$
+    $$\beta \geq \frac{10}{n}\sqrt{n^2\frac{\pi^2}{6}-n\ln(n)}$$
+    \end{Answer}
+\end{enumerate}
+
+\Question{Dice}
+In this problem, let $X_1, X_2, \dots X_n$ each denote the outcomes of standard six-sided dice rolls. Let $A$ denote the average of the outcomes $(\sum_{i = 1}^n X_i)/n$.
+\begin{enumerate}[(a)]
+  \item For $n = 100$, find some $a$ and $b$ such that $A$ is in the interval $[a, b]$ with probability at least 90\% (Don't use trivial intervals like [1, 6]).
+  \begin{Answer}
+    $$\Pr(|A-\mu|\geq \alpha)\leq \frac{\Var{A}}{\alpha^2}\leq \frac{1}{10}$$
+    $$\alpha \geq \sqrt{10 \Var{A}}$$
+    $$\alpha \geq \sqrt{10(\E(A^2)-\E(A)^2)}$$
+    $$\alpha \geq \sqrt{10(\frac{1}{n^2}(n\frac{91}{6}+n(n-1)(\frac{7}{2})^2)-(\frac{7}{2})^2)}$$
+    $$\alpha \geq .54$$
+    Thus, $a\approx 2.96$ and $b\approx 4.04$
+  \end{Answer}
+
+  \item For $n = 30$, find a lower bound on Pr[$3\leq A\leq 4$].
+  \begin{Answer}
+    $$1-\Pr(|A-\mu|\geq \alpha)\geq 1-\frac{\Var{A}}{\alpha^2}$$
+    $$\Pr(|A-\mu|\leq .5)\geq 1-\frac{\frac{1}{n^2}(n\frac{91}{6}+n(n-1)(\frac{7}{2})^2-(\frac{7}{2})^2)}{.5^2}$$
+    $$\Pr(|A-\mu|\leq .5)\geq 1-\frac{7}{18}$$
+    $$\Pr(|A-\mu|\leq .5)\geq \frac{11}{18}$$
+  \end{Answer}
+
+  \item Find the minimum $n$ for which you can guarantee that $A$ is within the range [3, 4] with at least 99\% probability.
+  \begin{Answer}
+    $$\Pr(|A-\mu|\geq .5)\leq \frac{\Var{A}}{.5^2}\leq \frac{1}{100}$$
+    $$\Var{A}\leq \frac{1}{400}$$
+    $$\frac{1}{n^2}(n\frac{91}{6}+n(n-1)(\frac{7}{2})^2-(\frac{7}{2})^2) \leq \frac{1}{400}$$
+    After some algebra...
+    $$n\geq 1167$$
+  \end{Answer}
+\end{enumerate}
+
+\Question{Practical Confidence Intervals}
+\begin{enumerate}[(a)]
+  \item It's New Year's Eve, and you're re-evaluating your finances for the next year. Based on previous spending patterns, you know that you spend \$1500 per month on average, with a standard deviation of \$500, and each month's expenditure is independently and identically distributed. As a poor college student, you also don't have any income. How much should you have in your bank account if you don't want to go broke this year, with probability at least 95\%?
+  \begin{Answer}
+    Let $X$ be a random variable denoting the amount of money spent in the year.
+    $$\Pr(|X-(12)1500|\geq \alpha)\leq \frac{\Var{X}}{\alpha^2}\leq \frac{1}{20}$$
+    $$\frac{\sigma^2/n}{\alpha^2}\leq \frac{1}{20}$$
+    $$\alpha \geq \sigma\sqrt{20n}$$
+    $$\alpha \geq 7745.97$$
+    Thus, it would suffice to have \$7745.97 extra in your bank account (or a total of \$25745.97).
+  \end{Answer}
+  
+  \item As a UC Berkeley CS student, you're always thinking about ways to become the next billionaire in Silicon Valley. After hours of brainstorming, you've finally cut your list of ideas down to 10, all of which you want to implement at the same time. A venture capitalist has agreed to back all 10 ideas, as long as your net return from implementing the ideas is positive with at least 95\% probability.
+  
+  Suppose that implementing an idea requires $50$ thousand dollars, and your start-up then succeeds with probability $p$, generating $150$ thousand dollars in revenue (for a net gain of $100$ thousand dollars), or fails with probability $1 - p$ (for a net loss of $50$ thousand dollars). The success of each idea is independent of every other. What is the condition on $p$ that you need to satisfy to secure the venture capitalist's funding?
+  \begin{Answer}
+  Let A indicate the net profit.
+$$\Pr(|A-\mu|\geq \E(A))\leq \frac{\Var{A}}{\E(A)^2}\leq \frac{1}{20}$$
+$$\frac{\E(A^2)+\E(A)^2}{\E(A)^2}\leq 1/20$$
+$$\frac{\E(A^2)}{\E(A)^2}\leq 1.05$$
+$$\frac{10(\E(A_i)^2)+90(\E(A_iA_j))}{\E(A)^2}\leq 1.05$$
+$$\frac{90(100000p-50000(1-p))^2+10(100000^2p+50000^2(1-p))}{100(100000p-50000(1-p))^2}\leq 1.05$$
+After some algebra...
+$$p\geq .845061$$
+  \end{Answer}
+  
+  \item One of your start-ups uses error-correcting codes, which can recover the original message as long as $1000$ packets are not erased. Each packet gets erased independently with probability $0.8$. How many packets should you send such that you can recover the message with probability at least 99\%?
+  \begin{Answer}
+  Define $A$ as the number of packets received and $n$ as the number sent. 
+    $$\Pr(|A-\mu|\geq n-1000-.8n)\leq \frac{\Var{A}}{(n-1000-.8n)^2}\leq \frac{1}{100}$$
+    $$\frac{n(.8)(.2)}{(n-1000-.8n)^2}\leq \frac{1}{100}$$
+    $$n \geq 6628.285$$
+    Thus it is sufficient to send 6629 packets.
+  \end{Answer}
+\end{enumerate}
+
+
+
+\Question{Entropy}
+Let $X_i$, $1 \leq i \leq n$, be a sequence of i.i.d.\ Bernoulli random variables with parameter $p$, i.e.\ $\Pr(X_i = 1) = p$ and $\Pr(X_i = 0) = 1-p$.
+\begin{enumerate}[(a)]
+  \item Express $\Pr(X_1 = x_1, X_2 = x_2, \dots, X_n = x_n)$ in terms of $p$ and $n_0$, where $x_i \in \{0,1 \}$ for all $1 \leq i \leq n$ and $n_0$ depends on ($x_1 \dots x_n$) and represents the number of 1's in ($x_1 \dots x_n$). Call this result $f(x_1, x_2, \dots, x_n)$.
+  \begin{Answer}
+    $f(x_1,x_2,...,x_n)=p^{n_0}(1-p)^{n-n_0}$
+  \end{Answer}
+
+  \item Define the random variable $Y_n$ as $Y_n = - n^{-1} \log f(X_1,X_2,\dots,X_n)$. What does $Y_n$ tend to as $n$ grows large?
+  \begin{Answer}
+$$Y_n=\frac{\log(p^{n_0}(1-p)^{n-n_0})}{-n}$$
+$$=\frac{n_0\log(p)}{-n}+\frac{n\log(1-p)}{-n}-\frac{n_0\log(1-p)}{-n}$$
+As $n$ grows large...
+$$=-\log(1-p)$$
+  \end{Answer}
+\end{enumerate}
+%%%%%%%%%%%%%%%%%%%% QUESTIONS END HERE
+
+\end{document}

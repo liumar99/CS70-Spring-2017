@@ -1,0 +1,236 @@
+\documentclass[11pt]{article}
+
+\usepackage{amsmath,amssymb,amsthm,setspace,tabto,fancyhdr,sectsty,graphicx}
+\usepackage[shortlabels]{enumitem}
+\usepackage[nobreak=true]{mdframed}
+\usepackage[left=1.25in,right=0.75in,top=1.25in,bottom=2.0in]{geometry}
+
+\newcommand*{\Question}[1]{\section{#1}}
+\newenvironment{Parts}{\begin{enumerate}[label=(\alph*)]}{\end{enumerate}}
+\newcommand*{\Part}{\item}
+
+\newcommand*{\solnboxes}{}
+
+\rfoot{\small Andy Zhang}
+\newcommand*{\hwnum}{04}
+
+
+\ifdefined\solnboxes
+    \newenvironment{Answer}{\vspace{10pt}\begin{mdframed}\textbf{Solution}\\}{\end{mdframed}\vfill\pagebreak[3]}
+\else
+    \newenvironment{Answer}{\vspace{10pt}}{\vfill\pagebreak[3]}
+\fi
+\newcommand*{\MC}[1]{\multicolumn{1}{c}{#1}}
+\newcommand*{\N}{\mathbb{N}}
+\newcommand*{\Z}{\mathbb{Z}}
+\newcommand*{\Q}{\mathbb{Q}}
+\newcommand*{\R}{\mathbb{R}}
+\newcommand*{\C}{\mathbb{C}}
+
+\pagestyle{fancy}
+\headheight=75pt
+\sectionfont{\Large\fontfamily{lmdh}\selectfont}
+
+\renewcommand{\headrulewidth}{6pt}
+\chead{\rule{\textwidth}{6pt} \vspace{20pt}\\}
+\lhead{\setstretch{1.05}\Large\fontfamily{lmdh}\selectfont
+CS 70        \tabto{96pt} Discrete Mathematics and Probability Theory\smallskip\\
+Spring 2017  \tabto{96pt} Rao}
+\rhead{\huge     \fontfamily{lmdh}\selectfont     HW \hwnum}
+
+\lfoot{\small CS 70, Spring 2017, HW \hwnum}
+\begin{document}
+
+\Question{Sundry} 
+\begin{Answer}
+
+\noindent Nadir Akhtar: nadir\_akhtar@berkeley.edu\\
+Rustie Lin: rustielin@berkeley.edu\\
+Sukrit Arora: sukrit.arora@berkeley.edu\\
+
+I certify that all solutions are entirely in my words and that I have not looked at another student’s
+solutions. I have credited all external sources in this write up. - Andy Zhang
+
+\end{Answer}
+
+%%%%%%%%%%%%%%%%%%%% QUESTIONS START HERE
+\Question{Amaze Your Friends}
+\begin{Parts}
+	
+	\Part You want to trick your friends into thinking you can perform mental arithmetic with very large numbers.
+	What are the last digits of the following numbers?
+	
+	\begin{enumerate}
+		
+		\item[i.] \quad $11^{2017}$
+		      \begin{Answer}
+		      1
+		      \\
+		      \\
+		      $11 \equiv 1 \mod 10 \equiv 11^{1(2017)} \equiv 1 \mod 10$
+		      \end{Answer}
+		\item[ii.] \quad $9^{10001}$
+		      \begin{Answer}
+		      9
+		      \\
+		      \\
+		      $9^2 \equiv 1 \mod 10 \equiv 9^{2(5000)}9 \equiv 9 \mod 10$
+		      \end{Answer}
+		\item[iii.] \quad $3^{987654321}$
+		      \begin{Answer}
+		      3
+		      \\
+		      \\
+		      $3^4 \equiv 1 \mod 10 \equiv 3^{4(246913580)}3 \equiv 3 \mod 10$
+		      \end{Answer}
+	\end{enumerate}
+	
+	\Part You know that you can quickly tell a number $n$ is divisible by $9$ if and only if the sum of the digits of $n$ is divisible by $9$. Prove that you can use this trick to quickly calculate if a number is divisible by $9$.
+	
+	\begin{Answer}
+	Let $i$ be the number of digits in $n$ and $x_0, x_1,...x_i$ be the digits of $n$. We also know $10\equiv 10^k \equiv 1 \mod 9$ for any natural number. Thus, $n$ can be expressed in the following way:
+	\begin{center}
+	$n \equiv x_0*10^0+x_1*10^1+...+x_i*10^i$\\
+	$\equiv x_0*1+x_1*1+...+x_i*1$\\
+	$\equiv x_0+x_1+...x_i \mod 9$\\
+	\end{center}
+	Thus, we have shown that $n$ is divisible by 9 iff the sum of its digits is divisible by 9.
+	\end{Answer}
+\end{Parts}
+
+
+\Question{Euclid's Algorithm}
+\begin{Parts}
+	\Part Use Euclid's algorithm in the lecture note to compute the greatest common divisor of 527 and 323. List the values of $x$ and $y$ of all recursive calls.
+	\begin{Answer}
+	    17
+	    \\
+	    \\
+		$gcd(527, 323)$\\
+		$gcd(323, 204)$\\
+		$gcd(204, 119)$\\
+		$gcd(119, 85)$\\
+		$gcd(85, 34)$\\
+		$gcd(34, 17)$\\
+		$gcd(17, 0)$
+	\end{Answer}
+	\Part Use the extended Euclid's algorithm in the lecture note to compute the multiplicative inverse of 5 mod 27. List the values of $x$ and $y$ and the returned values of all recursive calls.
+	\begin{Answer}
+	$d=ax+by$ where $d=1, a=27, x=-2, b=5, y=11)$
+	\\
+	\\
+	$ext$-$gcd(27, 5)$, $2=27-5(5)$, returns (1, -2, 11)\\
+	$ext$-$gcd(5, 2)$, $1=5-2(2)$, returns (1, 1, -2)\\
+	$ext$-$gcd(2, 1)$, $0=2-2(1)$, returns (1,0,1) \\
+	$ext$-$gcd(1, 0)$, returns, (1,1,0)\\
+		
+	\end{Answer}
+	\Part Find $x$ (mod $27$) if $5x+26\equiv 3$ mod $27$. You can use the result computed in (b).
+	\begin{Answer}
+		$$5x+26 \equiv 3 \mod 27$$
+		$$5x \equiv -23 \mod 27$$
+		$$5x \equiv 4 \mod 27$$
+		$$x \equiv 44 \mod 27$$
+		$$x \equiv 17 \mod 27$$
+	\end{Answer}
+	\Part True or false? Assume $a$, $b$, and $c$ are integers and $c>0$. If $a$ has no multiplicative inverse mod $c$, then $ax \equiv b$ mod $c$ has no solution. Explain your answer.
+	\begin{Answer}
+		False. Counterexample: $5x \equiv 10 \mod 30$. 5 has no multiplicative inverse modulo 30 because the two numbers are not co-prime; however, $x=2$ will satisfy the equation.
+	\end{Answer}
+\end{Parts}
+
+
+\Question{Solution for $ax \equiv b \bmod m$}
+
+In the lecture notes, we proved that when $\gcd(m, a) = 1$, $a$ has a unique multiplicative inverse, or equivalently $ax \equiv 1\bmod m$ has exactly one solution $x$ (modulo $m$). The proof of the unique multiplicative inverse (theorem 5.2) actually proved that when $\gcd(m, a) = 1$, the solution of $ax \equiv b\bmod m$ with unknown variable $x$ is unique. Now let's consider the case where $\gcd(m, a)>1$ and see why there is no unique solution in this case. Let's consider the general solution of $ax \equiv b\bmod m$ with $\gcd(m, a)>1$.
+\begin{Parts}
+		
+	\Part Let $\gcd(m, a) = d$. Prove that $ax \equiv b\bmod m$ has a solution (that is, there exists an $x$ that satisfies this equation) if and only if $b\equiv0\bmod d$.
+	\begin{Answer}
+	    Prove $ax \equiv b \mod m$ has a solution \implies $b \equiv 0 \mod d$:
+	    \\
+		\\
+		Since we know $ax \equiv b \mod m$ has a solution, $ax=b+my$ where $x,y$ are integers. After rearranging, we get that $b=ax-my$. Since we also know that $gcd(m,a)=d$, we know $d|a$ and $d|m$. Thus, $d$ is also a factor of $b$ which means $b \equiv 0 \mod d$.
+		
+		\\
+		\\
+		\\
+		
+		Prove $b \equiv 0 \mod d$ \implies $ax \equiv b \mod m$ has a solution:
+	    \\
+		\\
+		Since $gcd(m,a)=d$, $gcd(\frac{m}{d}, \frac{a}{d})=1$. Thus, the equation $$\frac{a}{d}x \equiv \frac{b}{d} \mod \frac{m}{d}$$ has a solution. Since the above equation is equivalent to $ax \equiv b \mod m$, it must also be true that $ax \equiv b \mod m$ has a solution. 
+		
+	\end{Answer}
+	\Part Let $\gcd(m, a) = d$. Assume $b \equiv 0\bmod d$. Prove that $ax \equiv b\bmod m$ has exactly $d$ solutions (modulo $m$).
+	\begin{Answer}
+	    Let $y$ be the unique solution to the equation $\frac{a}{d}x \equiv \frac{b}{d} \mod \frac{m}{d}$. Thus, every solution to the equation must be of the form $x=y+k \frac{m}{d}$ where $k$ is some integer. If a pair of solutions, $x_1$ and $x_2$, are equivalent, the following must hold for some integer $j$:
+	    $$y+k_1 \frac{m}{d} \equiv y+k_2 \frac{m}{d} \mod m$$
+	    $$\frac{m}{d}(k_1-k_2)\equiv 0 \mod m$$
+	    $$\frac{m}{d}(k_1-k_2)=jm$$
+	    $$(k_1-k_2)=dj$$
+	    $$k_1 \equiv k_2 \mod d$$
+	    
+	    Thus, all solutions must meet the condition where the arbitrary $k$ is in the range of 0 to $d-1$. Since $\frac{a}{d}x \equiv \frac{b}{d} \mod \frac{m}{d}$ is equivalent to $ax \equiv b \mod m$, the statement must also hold for $ax \equiv b \mod m$.
+	    
+	\end{Answer}
+	\Part Solve for $x$: $77x \equiv 35 \bmod 42$.
+	\begin{Answer}
+		$$77x \equiv 35 \bmod 42$$
+		$$11x \equiv  5 \mod 6$$
+		$$x \equiv 1 \mod 6$$
+	\end{Answer}
+		
+\end{Parts}
+
+
+\Question{Check Digits: ISBN} In this problem, we'll look at a real-world applications of check-digits.
+
+International Standard Book Numbers (ISBNs) are 10-digit codes ($d_1d_2\ldots d_{10}$) which are assigned by the publisher. These 10 digits contain information about the language, the publisher, and the number assigned to the book by the publisher. Additionally, the last digit $d_{10}$ is a "check digit" selected so that $\sum_{i=1}^{10} i \cdot d_i \equiv 0 \mod 11$. (\textit{Note that the letter X is used to represent the number 10 in the check digit.})
+
+\begin{Parts}
+	\Part Suppose you have very worn copy of the (recommended) textbook for this class. You want to list it for sale online but you can only read the first nine digits: 0-07-288008-? (the dashes are only there for readability). What is the last digit? Please show your work, even if you actually have a copy of the textbook.\\
+	\begin{Answer}
+	
+	    2
+	    \\
+	    \\
+		$$0*1+0*2+7*3+2*4+8*5+8*6+0*7+0*8+8*9+d_{10}*10 \equiv 0 \mod 11$$
+		$$189+10d_{10} \equiv 0 \mod 11$$
+		$$10d_{10} \equiv -189 \mod 11$$
+		$$10d_{10} \equiv 9 \mod 11$$
+		$$d_{10} \equiv 90 \mod 11$$
+		$$d_{10} \equiv 2 \mod 11$$
+	\end{Answer}
+		
+	\Part Wikipedia says that you can determine the check digit by computing $\sum_{i=1}^9 i\cdot d_i \mod 11$. Show that Wikipedia's description is equivalent to the above description. \\
+	\begin{Answer}
+	Let the check digit be $d_{10}$. The formula proposed by the question can be rewritten as $$\sum_{i=1}^9 i\cdot d_i+10d_{10} \equiv 0 \mod 11$$ Since Wikipedia's equation gives us $d_{10}$, we can substitute $d_{10}$ into the above equation to get $$ 11d_{10} \equiv 0 \mod 11$$ Since the LHS is always divisible by 11, the RHS holds and the equivalency is true.
+		
+	\end{Answer}
+	\Part Prove that changing any single digit of the ISBN will render the ISBN invalid. That is, the check digit allows you to \textit{detect} a single-digit substitution error. \\
+	\begin{Answer}
+		Let $F=\{f_1(x)=x \mod 11, f_2(x)=2x \mod 11,...,f_9(x)=9x \mod 11\}$. $f_1$ is the function that determines all possibilities of the first term in $\sum_{i=1}^{9} i\cdot d_i$, $f2$ determines all possibilities of the second term, etc. and $x$ represents all potential values of the actual digit occupying that index.  $\forall x \in \Z^+$ less than 10, every function in $F$ will be a bijection because the coefficient of $x$ in each function is co-prime with 11; thus, an inverse function exists. This means that every value of $x$ maps to a unique value and switching a single $x$ to any other value in any $f_i$ will result in a different value for term. Therefore, $\sum_{i=1}^{10} i\cdot d_i \not\equiv 0 \mod 11$. So, changing a single value will cause the ISBN to be invalid. 
+	\end{Answer}
+	\Part Can you \textit{switch} any two digits in an ISBN and still have it be a valid ISBN? For example, could 01\underline{2}34\underline{5}678X and 01\underline{5}34\underline{2}678X both be valid ISBNs? \\
+	\begin{Answer}
+		Let $i_1$ be the index of the an arbitrary digit $d_1$ and let $i_2$ be the index of a different arbitrary digit $d_2$. In order to make the ISBN valid after switching $d_1$ and $d_2$, the following equation must hold:
+		
+		$$i_1d_1+i_2d_2=i_1d_2+i_2d_1$$
+		
+		This is because any two numbers can be switched so long as the sum of their value-index products are the same before and after switching. However, after rearranging, we get the following equation:
+		
+		$$(i_1-i_2)d_1=(i_1-i_2)d_2$$
+		$$d_1=d_2$$
+		
+		This means that $d_1$ and $d_2$ must be equal in order for a switching to be valid. Since it wouldn't actually count as switching if you switch two equal numbers, you cannot switch any two digits in an ISBN and still have it be valid.
+	\end{Answer}
+		
+\end{Parts}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%% QUESTIONS END HERE
+
+\end{document}

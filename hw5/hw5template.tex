@@ -1,0 +1,235 @@
+\documentclass[11pt]{article}
+
+\usepackage{amsmath,amssymb,amsthm,setspace,tabto,fancyhdr,sectsty,}
+\usepackage[shortlabels]{enumitem}
+\usepackage[nobreak=true]{mdframed}
+\usepackage[left=1.25in,right=0.75in,top=1.25in,bottom=2.0in]{geometry}
+
+\newcommand*{\Question}[1]{\section{#1}}
+\newenvironment{Parts}{\begin{enumerate}[label=(\alph*)]}{\end{enumerate}}
+\newcommand*{\Part}{\item}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% UNCOMMENT NEXT LINE FOR SOLUTION BOXES
+ \newcommand*{\solnboxes}{}
+
+%%%%%%%%%%%%%%%%%%%% name/id
+\rfoot{\small Andy Zhang | 3031931319}
+
+%%%%%%%%%%%%%%%%%%%% hw number
+\newcommand*{\hwnum}{5}
+
+
+\ifdefined\solnboxes
+    \newenvironment{Answer}{\vspace{10pt}\begin{mdframed}\textbf{Solution}\\}{\end{mdframed}\vfill\pagebreak[3]}
+\else
+    \newenvironment{Answer}{\vspace{10pt}}{\vfill\pagebreak[3]}
+\fi
+\newcommand*{\MC}[1]{\multicolumn{1}{c}{#1}}
+\newcommand*{\N}{\mathbb{N}}
+\newcommand*{\Z}{\mathbb{Z}}
+\newcommand*{\Q}{\mathbb{Q}}
+\newcommand*{\R}{\mathbb{R}}
+\newcommand*{\C}{\mathbb{C}}
+
+\pagestyle{fancy}
+\headheight=75pt
+\sectionfont{\Large\fontfamily{lmdh}\selectfont}
+
+\renewcommand{\headrulewidth}{6pt}
+\chead{\rule{\textwidth}{6pt} \vspace{20pt}\\}
+\lhead{\setstretch{1.05}\Large\fontfamily{lmdh}\selectfont
+CS 70        \tabto{96pt} Discrete Mathematics and Probability Theory\smallskip\\
+Spring 2017  \tabto{96pt} Rao}
+\rhead{\huge     \fontfamily{lmdh}\selectfont     HW \hwnum}
+
+\lfoot{\small CS 70, Spring 2017, HW \hwnum}
+\begin{document}
+
+\Question{Sundry} 
+\vspace{10pt}
+%%%%%%%%%%%%%%%%%%%% SUNDRY PART HERE
+\noindent Nadir Akhtar: nadir\_akhtar@berkeley.edu\\
+Rustie Lin: rustielin@berkeley.edu\\
+Sukrit Arora: sukrit.arora@berkeley.edu\\
+
+I certify that all solutions are entirely in my words and that I have not looked at another student’s
+solutions. I have credited all external sources in this write up. - Andy Zhang
+%%%%%%%%%%%%%%%%%%%% END SUNDRY
+\vfill\pagebreak[3]
+
+%%%%%%%%%%%%%%%%%%%% QUESTIONS START HERE
+\Question{Count and Prove}
+\begin{Parts}
+\Part
+Over 1000 students walked out of class and marched to protest the war. To count the exact number of students protesting, the chief organizer lined the students up in columns of different length. If the students are arranged in columns of 3, 5, and 7, then 2, 3, and 4 people are left out, respectively.  What is the minimum number of students present?  Solve it with Chinese Remainder Theorem. 
+\begin{Answer}
+1103 students
+\\
+$$x \equiv 2 \mod 3$$
+$$x \equiv 3 \mod 5$$
+$$x \equiv 4 \mod 7$$
+\\
+$$x \equiv 2(35)(-1)+3(21)(1)+4(15)(1)$$
+$$\equiv 53$$
+$$\equiv 1103 \mod 105$$
+\end{Answer}
+
+\Part
+Prove that for $n\geq 1$, if $935 = 5 \times 11 \times 17$ divides $n^{80} -1$, then $5$, $11$, and $17$ do not divide $n$.
+\begin{Answer}
+Proceed by contraposition. Assume that 5, 11, and 17 divide $n$. In that case, using the Chinese Remainder Theorem, we obtain that $n$ must be equivalent to $0 \mod 935$. In order to be divide 935, $n^{80}-1$ must be equivalent to $0 \mod 935$. In$\mod 935$, if $n \equiv 0$, then $n^{80}-1 \equiv -1 \mod 935$. Since $-1 \not = 0$, we have proved the statement by contraposition. 
+\end{Answer}
+\end{Parts}
+
+
+\Question{RSA Lite} 
+
+Woody misunderstood how to use RSA. 
+So he selected prime $P = 101$ and encryption 
+exponent $e = 67$, and encrypted his message $m$ to get $35 = m^e \bmod P$.
+Unfortunately he forgot his original message $m$
+and only stored the encrypted value $35$. But Carla thinks she 
+can figure out how to recover $m$ from $35 = m^e \bmod P$, with 
+knowledge only of $P$ and $e$. Is she right? 
+Can you help her figure out the message $m$? Show all your work. 
+\begin{Answer}
+In this problem, $N=P$. Thus, to determine the private key needed to recover $m$, we simply need to calculate the multiplicative inverse of $e \mod P-1$. Using the extended-gcd algorithm, we find that $67^{-1} \mod 100 \equiv 3$. Thus, plugging in 3 for $d$ in the following equation yields the value of $m$. $$m \equiv 35^d \mod 101$$ $$m \equiv 35^3 \mod 101$$ $$m \equiv 51 \mod 101$$
+\end{Answer}
+
+
+\Question{RSA with Three Primes}
+Show how you can modify the RSA encryption method to work with three primes instead of two primes (i.e.\ $N=pqr$ where $p, q, r$ are all prime), and prove the scheme you come up with works in the sense that $D(E(x)) \equiv x \bmod N$.
+\begin{Answer}
+    Let $e$ be co-prime with $(p-1)(q-1)(r-1)$. Let the private key $d$ be the multiplicative inverse of $e \mod (p-1)(q-1)(r-1)$. Sending a message $x$ involves sending the encoded message $x'=x^e \mod N$. Decrypting the message involves evaluating $x'^d \mod N$.
+    \\
+    To prove the correctness, we must show that $x^{ed}=x \mod N$. Rearranging, we get:
+    $$ x^{ed}-x=0 \mod N$$
+     $$ x(x^{ed-1}-1)=0 \mod N$$
+    $$ x(x^{k(p-1)(q-1)(r-1)}-1)=0 \mod N$$
+    
+    We can now apply Fermat's Little Theorem to the above number to prove that it is divisible by $p, q,$ and $r$. $x^{k(p-1)(q-1)(r-1)}-1=0 \mod N$ is divisible by $p$ because it can be written as $(x^{(p-1)})^{k(q-1)(r-1)}-1 \equiv 0 \mod p$. Thus since the second term is divisible by $p$, then the entire number is divisible by $p$. A similar argument can be applied to $q$ and $r$.
+\end{Answer}
+
+
+\Question{Squared RSA}
+
+\begin{Parts}
+  \Part Prove the identity $a^{p(p-1)} \equiv 1 \pmod{p^2}$, where $a$ is relatively prime to $p$ and $p$ is prime.
+  \begin{Answer}
+    Starting with FLT, we can rewrite the equivalency $a^{p-1} \equiv 1 \mod p$ as $1+kp=a^{p-1}$ where $k \in \Z$. Taking both sides to the power of $p$ and using the binomial expansion theorem, we arrive at the following: $$(1+kp)^p=a^{p(p-1)}$$ $$\binom{p}{0}1^p(kp)^0+\binom{p}{1}1^{p-1}(kp)^1+...+\binom{p}{p}1^0(kp)^p=a^{p(p-1)}$$
+    $$1+p(1^{p-1})(kp) \equiv a^{p(p-1)} \mod p^2$$
+    $$1+kp^2 \equiv a^{p(p-1)} \mod p^2$$
+    $$a^{p(p-1)} \equiv 1 \mod p^2$$
+  \end{Answer}
+
+  \Part 
+   Now consider the RSA scheme: the public key is $(N = p^2 q^2, e)$ for primes $p$ and $q$, with $e$ relatively prime to $p(p-1)q(q-1)$. The private key is $d = e^{-1} \pmod{p(p-1)q(q-1)}$.
+  Prove that the scheme is correct, i.e.\ $x^{ed} \equiv x \pmod{N}$.
+  \begin{Answer}
+        We can rewrite the equation $x^{ed} \equiv x \mod N$ as $x^{ed}-x \equiv 0 \mod N$. Substituting in $ed$ and factoring, we arrive at: $$x(x^{kp(p-1)q(q-1)}-1) \equiv 0 \mod N$$ From (a), we know that $a^{p(p-1)} \equiv 1 \pmod{p^2}$. Thus, by applying FLT, we can show that $N$ must be divisible by $p^2$ because the equation can be written as $x((x^{p(p-1)})^{q(q-1)}-1) \equiv 0 \mod N$. Since the second term is divisible by $p^2$, then the entire number is divisible by $p^2$. A similar argument can be applied to $q^2$.
+  \end{Answer}
+
+  \Part Continuing the previous part, prove that the scheme is unbreakable, i.e.\ your scheme is at least as difficult as ordinary RSA.
+  \begin{Answer}
+    In order to break the squared RSA scheme, you must be able to factor $p^2q^2$. Since $pq$ is a factor of $p^2q^2$, it would be more difficult to factor the squared RSA scheme than regular RSA because in regular RSA, you need only to factor $pq$. 
+  \end{Answer}
+
+\end{Parts}
+
+
+
+\Question{Breaking RSA}
+\begin{Parts}
+    \Part Eve is not convinced she needs to factor $N = pq$ in order to break
+        RSA.
+        She argues: "All I need to know is $(p-1)(q-1)$... then I can find $d$
+    as the inverse of $e$ mod $(p-1)(q-1)$. This should be easier than
+    factoring $N$."
+    Prove Eve wrong, by showing that if she knows $(p-1)(q-1)$,
+  she can easily factor $N$ (thus showing finding $(p-1)(q-1)$ is at least
+  as hard as factoring $N$). Assume Eve has a friend Wolfram, who can easily return the
+    roots of polynomials over $\R$ (this is, in fact, easy).
+  \begin{Answer}
+    Let $z=(p-1)(q-1)$. The equation can then be expanded to $z=pq-(p+q)+1$. We thus know the value of $p+q=pq-z+1$ because $pq=N$. By constructing the following polynomial equation and using Wolfram, we can obtain the values of $p$ and $q$ (remember that $pq$ and now $p+q$ are both known values): $0=x^2+(p+q)x-pq$.
+  \end{Answer}
+
+  \Part When working with RSA, it is not uncommon to use $e=3$ in the public
+        key. Suppose that Alice has sent Bob, Carol, and Dorothy the same
+        message indicating the time she is having her birthday party. Eve, who is
+        not invited, wants to decrypt the message and show up to the
+        party.
+        Bob, Carol, and Dorothy have public keys $(N_1, e_1), (N_2, e_2), (N_3,
+        e_3)$ respectively, where $e_1=e_2=e_3=3$. Furthermore assume that $N_1,N_2,N_3$ are
+        all different. Alice has chosen a number $0\leq x< \min\{N_1,N_2,N_3\}$ which
+        indicates the time her party starts and has encoded it via the three
+        public keys and sent it to her three friends. Eve has been able to
+        obtain the three encoded messages. Prove that Eve can figure out $x$.
+        First solve the problem when two of $N_1,N_2,N_3$ have a
+        common factor. Then solve it when no two of them have a common factor.
+        Again, assume Eve is friends with Wolfram as above.
+        
+        
+    \textit{Hint}: The concept behind this problem is the Chinese Remainder Theorem:
+    Suppose $n_1, ...,n_k$ are positive integers, that are pairwise co-prime.
+    Then, for any given sequence of integers $a_1, ..., a_k$, there exists an
+    integer $x$ solving the following system of simultaneous congruences:
+        \begin{align*}
+            x &\equiv a_1 \pmod{n_1} \\ 
+        x &\equiv a_2 \pmod{n_2} \\ 
+        &\vdots \\ 
+        x &\equiv a_k \pmod{n_k} 
+    \end{align*}
+    Furthermore, all solutions $x$ of the system are congruent modulo 
+    the product, $N=n_1 \dotsm n_k$. Hence:
+        $x \equiv y \pmod{n_i} \text{ for } 1 \leq i \leq k \Leftrightarrow 
+      x \equiv y \pmod N $.
+  \begin{Answer}
+    We have two cases:
+    \begin{enumerate}             
+        \item At least one of $gcd(N_1,N_2)$, $gcd(N_1, N_3)$, or $gcd(N_2, N_3)$ is greater than 1. Then, it must be true that that value $p$ is one of the prime factors of the two $N_i$'s. Thus, one of the $N_i$ can be factored by finding $q$ using the following equation: $q=\frac{N_i}{p}$. Since we now have $p$ and $q$, we have broken RSA.                                                                                            
+        \item  $gcd(N_1,N_2)=gcd(N_1, N_3)=gcd(N_2, N_3)=1$. If the three encoded messages are $x_1, x_2, and x_3$ and the public keys take the form $(N_i, 3)$, then we can write the following 3 equations: $$x^3 \equiv x_1 \mod N_1$$$$x^3 \equiv x_2 \mod N_2$$$$x^3 \equiv x_3 \mod N_3$$ We can then use the CRT to solve for $x^3$; the solution will be of the form $x^3 \equiv z \mod N_1N_2N_3$ where $0 \leq z \leq N_1N_2N_3$. Thus, by taking the cube root of both sides, we obtain that $x=z^{1/3}$.
+    \end{enumerate}
+  \end{Answer}
+\end{Parts}
+
+
+
+
+
+\Question{Polynomials in Fields}
+ Define the sequence of polynomials by $P_0(x) = x+12$, $P_1(x) = x^2 - 5x + 5$ and $P_n(x) = x P_{n-2}(x) - P_{n-1}(x)$.
+  
+  (For instance, $P_2(x) = 17x-5$ and $P_3(x) = x^3 - 5x^2 - 12x + 5$.)
+  \begin{Parts}
+  \Part Show that $P_n(7) \equiv 0 \pmod{19}$ for every $n\in \N$.
+  \begin{Answer}
+    Proceed by strong induction on $n$.
+    
+    Base case: $P_0(7)=7+12=19\equiv 0 \mod 19$ and $P_1(7)=49-35+5=19 \equiv 0 \mod 19$ \\
+    \\
+    Inductive hypothesis: Assume that the proposition holds for all values $k$ where $0 \leq k \leq n$ \\
+    \\
+    Inductive step: We want to show that $P_{k+1}(7) \equiv 0 \mod 19$. By construction, we can write $P_{k+1}(x)=xP_{k-1}(x)-P_k(x)$. By the inductive hypothesis, we know that $P_{k-1}(7)\equiv P_k(7) \equiv 0 \mod 19$. Thus by substituting in these values, we obtain  $P_{k+1}(7)=0x-0=0 \equiv 0 \mod 19$. Thus we have proven that the proposition holds for $k+1$ which completes the induction.
+  \end{Answer}
+  
+  \Part Show that, for every prime $q$, if $P_{2017}(x) \not\equiv 0 \pmod{q}$, then $P_{2017}(x)$ has at most 2017 roots modulo $q$.\\
+  \begin{Answer}
+    Let $P(n)$ be "the degree of polynomial $P_n(x)$ is at most $n$ for $n>1$". Proceed by strong induction on $n$.
+    
+    Base case: From the spec of the question, we can observe that the degrees of $P_0$ and $P_1$ are 1 and 2 respectively. For $P_2$, the degree is 1 (which is less than 2) and $P_3$'s degree is 3 (which is less than or equal to 3). Thus the proposition holds for $P_2$ and $P_3$.\\
+    \\
+    Inductive hypothesis: Let $P(n)$ be true for all $2 \leq n \leq k$ for some $k$.\\
+    \\
+    Inductive step: $$degree(P_{k+1}(x))\leq max(degree(xP_{k-1}(x)),degree(P_{k}(x)))$$
+    $$degree(P_{k+1}(x))\leq max(1+(k-1),k)$$
+    $$degree(P_{k+1}(x))\leq k$$
+    $$degree(P_{k+1}(x))\leq k+1$$
+    
+    We have thus shown that the proof holds for $k+1$ which completes the induction. We can now apply the correct proposition to the single case of $n=2017$ to conclude that $P_{2017}(x)$ has degree at most 2017 and thus must have at most 2017 roots modulo $q$.
+  \end{Answer}
+  \end{Parts}
+
+%%%%%%%%%%%%%%%%%%%% QUESTIONS END HERE
+
+\end{document}

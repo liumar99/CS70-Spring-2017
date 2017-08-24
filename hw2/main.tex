@@ -1,0 +1,458 @@
+\documentclass[11pt]{article}
+
+\usepackage{amsmath,amssymb,amsthm,setspace,tabto,fancyhdr}
+\usepackage[shortlabels]{enumitem}
+\usepackage[nobreak=true]{mdframed}
+\usepackage[left=1.25in,right=0.75in,top=1.25in,bottom=2.0in]{geometry}
+\usepackage{sectsty}
+
+\newcommand*{\Question}[1]{\section{#1}}
+\newenvironment{Parts}{\begin{enumerate}[label=(\alph*)]}{\end{enumerate}}
+\newcommand*{\Part}{\item}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% UNCOMMENT NEXT LINE FOR SOLUTION BOXES
+ \newcommand*{\solnboxes}{}
+
+%%%%%%%%%%%%%%%%%%%% name/id
+\rfoot{\small Andy Zhang | 3031931319}
+
+%%%%%%%%%%%%%%%%%%%% hw number
+\newcommand*{\hwnum}{2}
+
+
+\ifdefined\solnboxes
+    \newenvironment{Answer}{\vspace{10pt}\begin{mdframed}\textbf{Solution}\\}{\end{mdframed}\vfill\pagebreak[3]}
+\else
+    \newenvironment{Answer}{\vspace{10pt}}{\vfill\pagebreak[3]}
+\fi
+\newcommand*{\MC}[1]{\multicolumn{1}{c}{#1}}
+\newcommand*{\N}{\mathbb{N}}
+\newcommand*{\Z}{\mathbb{Z}}
+\newcommand*{\Q}{\mathbb{Q}}
+\newcommand*{\R}{\mathbb{R}}
+\newcommand*{\C}{\mathbb{C}}
+
+\pagestyle{fancy}
+\headheight=75pt
+\sectionfont{\Large\fontfamily{lmdh}\selectfont}
+
+\renewcommand{\headrulewidth}{6pt}
+\chead{\rule{\textwidth}{6pt} \vspace{20pt}\\}
+\lhead{\setstretch{1.05}\Large\fontfamily{lmdh}\selectfont
+CS 70        \tabto{96pt} Discrete Mathematics and Probability Theory\smallskip\\
+Spring 2017  \tabto{96pt} Satish Rao}
+\rhead{\huge     \fontfamily{lmdh}\selectfont     HW \hwnum}
+
+\lfoot{\small CS 70, Spring 2017, HW \hwnum}
+\begin{document}
+
+\Question{Sundry} 
+\vspace{10pt}
+%%%%%%%%%%%%%%%%%%%% SUNDRY PART HERE
+Nadir Akhtar: nadir\_akhtar@berkeley.edu\\
+Rustie Lin: rustielin@berkeley.edu\\
+Sukrit Arora: sukrit.arora@berkeley.edu\\
+
+I certify that all solutions are entirely in my words and that I have not looked at another student’s
+solutions. I have credited all external sources in this write up. - Andy Zhang
+%%%%%%%%%%%%%%%%%%%% END SUNDRY
+
+%%%%%%%%%%%%%%%%%%%% QUESTIONS START HERE
+\Question{Sum of Inverses}
+
+Prove that for every positive integer $k$, the following is true:\begin{quote}For every real number $r>0$, there are only finitely many solutions in positive integers to
+\begin{align*}
+\frac{1}{n_1}+\cdots+\frac{1}{n_k}=r.
+\end{align*}
+\end{quote}In other words, there exists some number $m$ (that depends on $k$ and $r$) such that there are at most $m$ ways of choosing a positive integer $n_1$, and a (possibly different) positive integer $n_2$, etc., that satisfy the equation.
+
+\begin{Answer}
+Proceed by induction on $k$. For the base case of $k=1$, $r$ must be written as $\frac{1}{n_1}$, and thus there exists only one solution for $n_1$. If $r$ cannot be written in that form, then there are zero solutions; in either case, the proposition holds. Let the inductive hypothesis be that there exist a finite number of solutions for some $k \geq 1$ for all $r$. Every $r$ either can or cannot be written as the sum of $k+1$ integer inverses. If $r$ cannot be written in that form, then there must be zero solutions for that $r$. If $r$ can be written in that form, the largest $\frac{1}{n_i}$ must be greater than or equal to $\frac{r}{k+1}$ which means that $n_i\leq \frac{k+1}{r}$. Thus, we have shown that $n_i$ has a finite number of possible values. For each of these finite number of values, there exists a real number $r-\frac{1}{n_i}$ that can be written as the sum of $k$ integer inverses in a finite number of ways (by the induction hypothesis). This means that there are only finitely many solutions for $k+1$ for each $n_i$. We have thus proved that the proposition holds for $k+1$ and completed the induction.
+\end{Answer}
+
+\Question{Stable Marriage}
+
+Consider a set of four men and four women with the following preferences:
+
+\begin{center}
+\begin{tabular}{|c|c||c|c|}\hline
+men&preferences&women & preferences \\
+\hline
+A& 1$>$2$>$3$>$4&1& D$>$A$>$B$>$C \\
+\hline
+B&1$>$3$>$2$>$4 &2& A$>$B$>$C$>$D  \\
+\hline
+C&1$>$3$>$2$>$4 &3& A$>$B$>$C$>$D  \\
+\hline
+D&3$>$1$>$2$>$4 &4& A$>$B$>$D$>$C  \\
+\hline
+\end{tabular}
+\end{center}
+
+\begin{Parts}
+\Part  Run on this instance the stable matching algorithm presented in class. Show each stage of the algorithm, and give the resulting matching, expressed as $\{(M,W),\ldots\}$.
+
+\begin{Answer}
+\begin{center}
+Day 1
+\begin{tabular}{ c | c  }
+$Women$ & $Proposals$\\
+\hline
+1 & \textbf{A},B,C \\
+2 & - \\
+3 & \textbf{D} \\
+4 & - \\
+
+\end{tabular}
+Day 2
+\begin{tabular}{ c | c  }
+$Women$ & $Proposals$\\
+\hline
+1 & \textbf{A} \\
+2 & - \\
+3 & \textbf{B},C,D \\
+4 & - \\
+
+\end{tabular}
+
+
+
+Day 3
+\begin{tabular}{ c | c  }
+$Women$ & $Proposals$\\
+\hline
+1 & \textbf{D},A \\
+2 & \textbf{C} \\
+3 & \textbf{B} \\
+4 & - \\
+
+\end{tabular}
+Day 4
+\begin{tabular}{ c | c  }
+$Women$ & $Proposals$\\
+\hline
+1 & \textbf{D} \\
+2 & \textbf{A}, C \\
+3 & \textbf{B} \\
+4 & -\\
+
+\end{tabular}
+
+Day 5
+\begin{tabular}{ c | c  }
+$Women$ & $Proposals$\\
+\hline
+1 & \textbf{D} \\
+2 & \textbf{A} \\
+3 & \textbf{B} \\
+4 & \textbf{C} \\
+
+\end{tabular}
+\end{center}
+\{(D,1), (A,2), (B,3), (C,4) \}
+\end{Answer}
+
+\Part  We know that there can be no more than $n^2$ stages of the algorithm, because at least one woman is deleted from at least one list at each stage.  Can you construct an instance with $n$ men and $n$ women so that $c\cdot n^2$ stages are required for some respectably large constant $c$? (We are looking for a {\em general pattern} here, one that results in $c\cdot n^2$ stages for any $n$.)
+
+\begin{Answer}
+The following method for constructing preference tables will always yield a worse-case run-time:
+\begin{enumerate}
+\item For the men's table, construct the preferences so that every male has the same female as their least preferred partner
+\item For the men's table, the last man's preference list will be the same as the first man's.
+\item For the men's table, no man can have the same preferred women as the first/last man on any given day except on the last (for which they must all have the same preference).
+\item For the women's table, no woman can prefer the same man as any other woman on any given day.
+\end{enumerate}
+This construction process will make it so that any run-time of the algorithm will take the maximum number of days for $n$ males and $n$ females ($n^2-2n+2$). In this case, we want the actual worst case to be at least $cn^2$; in order to solve for the maximum possible value of $c$, we first set $n^2-2n+2n$ equal to $cn^2$. We then rearrange to get the following equation: $$(1-c)n^2-2n+2=0$$
+To maximize $c$, we must determine the value of $c$ where the discriminant of the above equation is 0: $$0=b^2-4ac$$ $$0=4-8(1-c)$$ $$c=\frac{1}{2}$$ Thus, $c$ must equal .5 in order for at least $cn^2$ stages to result for all $n$.
+\end{Answer}
+
+\Part Suppose we relax the rules for the men, so that each
+unpaired man proposes to the next woman on his list at a 
+time of his choice (some men might procrastinate for several
+days, while others might propose and get rejected several times
+in a single day). Can the order of the proposals change 
+the resulting pairing? Give an example of such a change or 
+prove that the pairing that results is the same.
+
+\begin{Answer}
+Let there be men $M'$ and $M$ who both prefer a woman $W'$ over woman $W$. Additionally let $W'$ and $W$ both prefer $M'$ over $M$. We then have 3 cases:
+\begin{enumerate}
+\item Neither $M$ nor $M'$ procrastinate (equivalent to $M$ and $M'$ both procrastinating the same amount of time), thus $M$ gets matched with $W$ and $M'$ gets matched with $W'$.
+\item $M$ procrastinates longer than $M'$, but when $M$ eventually proposes, he will still be rejected by $W'$ and will thus have to get matched with $W$.
+\item $M'$ procrastinates longer than $M$, but when $M'$ eventually proposes, $W'$ will reject $M$ in favor of $M'$.
+\end{enumerate}
+
+By the Improvement Lemma, a man's options will only get worse as a woman's will only improve which is consistent with our 3 cases above. Thus because the TMA can only output a single stable pairing and we obtain the same result as TMA even if we allow procrastination, the order of proposals cannot change the resulting pairing.
+
+\end{Answer}
+
+\end{Parts}
+
+
+
+\Question{Bieber Fever}
+
+\begin{Parts}
+\Part { Show that there does not necessarily exist a stable matching.}
+
+\begin{Answer}
+Let $n=5$. If all 10 individuals are Haters, there will be no stable matching. This is because all 10 people would have to be matched with Justin Bieber however the matching would violate the rule which states no Hater can be matched with Justin Bieber.
+\end{Answer}
+
+\Part { Provide an ``if-and-only-if'' condition for whether a
+    stable matching exists. } ({\em No need to prove anything in this
+  part. That comes in later parts of this question.})
+
+\begin{Answer}
+    The pairing will work iff there are at least 5 Beliebers of each gender.
+\end{Answer}
+
+\Part { Is Justin Bieber guaranteed to always get his
+    Bieber-optimal group if a stable matching exists?} (Bieber-optimal
+  means that he gets the best possible group that could be matched to
+  him in any stable matching.)
+
+\begin{Answer}
+    Yes. If there exists a stable matching, Justin's 5 most preferred Beliebers of each gender will be matched with him.
+\end{Answer}
+
+\Part { Give an algorithm which finds a stable matching if the condition
+  you gave in (b) holds. Argue why this algorithm works.}
+
+\begin{Answer}
+    Begin by matching Justin's top 5 picks of each gender with Justin. Then, run the standard propose-reject algorithm on all remaining people (excluding Justin and his party of 10). This algorithm meets conditions 1 and 4 because Justin's party will have 10 members (5 men and 5 women) none of whom are Haters. Conditions 2 and 3 are met because the remaining individuals are matched with members of the opposite sex with no rogue couples due to the properties of the propose-reject algorithm. Finally, condition 5 is met because Justin is matched with his 10 favorite Beliebers and there thus exists no Beliebers whom Justin prefers over anyone already in his own party.
+\end{Answer}
+
+\Part { Prove that a stable matching cannot exist if
+    the condition you gave in (b) does not hold.}
+
+\begin{Answer}
+    Consider the case where the number of male Beliebers is less than 5. Then there are either two cases:
+    \begin{enumerate}
+        \item Justin is not matched with 5 males, thus the matching is unstable.
+        \item Justin is matched with 5 males but at least one is a Hater, thus the matching is unstable.
+    \end{enumerate}
+    The same logic will apply to females. Thus, when there are not at least 5 Beliebers of each gender, there will exist no stable matching.
+\end{Answer}
+
+\end{Parts}
+
+
+\Question{Combining Stable Marriages}
+
+\begin{center}
+\begin{tabular}{|c|c||c|c|}\hline
+men&preferences& women & preferences \\
+\hline
+A& 1$>$2$>$3$>$4& 1 & D$>$C$>$B$>$A \\
+\hline
+B&2$>$1$>$4$>$3 & 2 & C$>$D$>$A$>$B  \\
+\hline
+C&3$>$4$>$1$>$2 & 3 & B$>$A$>$D$>$C  \\
+\hline
+D&4$>$3$>$2$>$1 & 4 & A$>$B$>$D$>$C  \\
+\hline
+\end{tabular}
+\end{center}
+
+\begin{Parts}
+\Part $R=\{(A,4),(B,3),(C,1),(D,2)\}$ and
+$R'=\{(A,3),(B,4),(C,2),(D,1)\}$ are stable matchings for the
+example given above. Calculate $R \land R'$
+and show that it is also stable.
+
+\begin{Answer}
+$R \land R'=\{(A,3), (B,4), (C,1), (D, 2)\}$
+
+By the definition of stability, since the matching contains no rogue couples, the matching is stable.
+
+\end{Answer}
+
+\Part Prove that, for any matchings $R,\,R'$,
+no man prefers $R$ or $R'$ to $R \land R'$.
+
+\begin{Answer}
+    We proceed by contradiction. Assume that there is a man who prefers either $R$ or $R'$ to $R \land R'$. Since any given male will have two different female pairings in $R$ and $R'$, there is one woman who he prefers over the other. Suppose the male prefers pairing $R$, then he will obviously not prefer $R'$ to $R \land R'$ because $R \land R'$ will give him his desired pairing of $R$. On the other hand $R$ and $R \land R'$ will result in the same pairing for the male so he cannot prefer one over the other. The same logic holds if the male preferred the $R'$ pairing. Since we have shown that the man can only be worse off or be equally satisfied if he were to choose $R$ or $R'$ over $R \land R'$, we have a contradiction with our original assumption. 
+\end{Answer}
+
+\Part  Prove that, for any stable matchings $R,\,R'$
+where $m$ and $w$ are dates in $R$ but not in $R'$, one of the following
+holds:
+\begin{quote}
+$\bullet$ $m$ prefers $R$ to $R'$ and $w$ prefers $R'$ to $R$; or\\
+$\bullet$ $m$ prefers $R'$ to $R$ and $w$ prefers $R$ to $R'$.
+\end{quote}
+[\textit{Hint}: Let $M$ and $W$ denote the sets of mens and women respectively
+that prefer $R$ to $R'$, and $M'$ and $W'$ the sets of men and women that prefer $R'$ to $R$.  Note that $|M|+|M'|=|W|+|W'|$. (Why is this?) Show that $|M| \leq |W'|$ and that $|M'| \leq |W|$.  Deduce that $|M'|=|W|$ and $|M|=|W'|$.  The claim should now follow quite easily.]
+
+(You may assume this result in subsequent parts even if you don't prove it here.)
+
+\begin{Answer}
+Notice that $|M|+|M'|=|W|+|W'|$ because there only exist two cases for each male and female: he/she prefers either $R$ $(M,W)$ or  $R'$ $(M',W')$. Since there are an equal number of males and females, $|M|+|M'|=|W|+|W'|$. 
+
+Let us now show that $|M| \leq |W'|$. If we have a pair $(m,w)$ in $R$ but not in $R'$, both of whom prefer $R$, it means that in $R'$, both of them are paired with people that they prefer less than their partner in $R$. This is a contradiction because $R'$ would have a rogue pair but $R'$ is also a stable pairing. Thus for all men in $M$, there must be at least one woman in $W'$. 
+
+A similar argument can be used to show that the same statement holds for $M'$ and $W$. We now have the two inequalities $|M'| \leq |W|$ and $|M| \leq |W'|$. By combining these two inequalities, we arrive at the conclusion that $|M'|=|W|$ and $|M|=|W'|$.
+
+The original claim states that if $(m,w)$ is in $R$, exactly one of $m$ and $w$ prefers the $R'$ matching and the other must prefer the $R$ matching. It is not possible that they both prefer $R$ or that they both prefer $R'$.
+
+They cannot both prefer $R$ because then $R'$ would form a rogue couple which is a contradiction since $R'$ is a stable pairing. They cannot both prefer $R'$ because $|M'|=|W|$ and $|M|=|W'|$. If for one couple, both members were in $M'$ and $W'$, then to preserve the equality, then there must be one couple where both of them are in $M$ and $W$, which we have proven is impossible.
+\end{Answer}
+
+\Part Prove an interesting result: for any stable matchings $R,\,R'$, (i) $R \land R'$ is a matching [\textit{Hint}: use the results from (c)], and (ii) it is also stable.
+
+\begin{Answer}
+By the theorem proven in $(c)$, $R \land R'$ must be a matching because in both $R$ and $R'$, each man in $M$ is matched with a woman in $W'$ and each man $M'$ is matched with a woman $W'$. Thus, pair each man in $M$ with his partner in $R$ and pair each $M'$ with his partner in $R'$ in order to achieve a matching. Each man's partner is unique because $R$ and $R'$ exist. To show that this matching is stable, we must prove that there does not exist a man in $M$ that prefers some woman in $W$. Notice, however, that this fact is given in $(c)$ and that if the situation can occur, then $R'$ would be unstable. A similar argument can be used for the case if a man in $M'$ prefers a woman in $W'$.
+\end{Answer}
+
+\end{Parts}
+
+
+
+\Question{Better Off Alone}
+
+In the stable marriage problem, suppose that some men and women have standards and would not just settle
+for anyone. In other words, in addition to the preference orderings they have,
+they prefer being alone to being with some of the lower-ranked individuals
+(in their own preference list). A pairing could ultimately have to be partial, i.e., some individuals would
+remain single.
+
+The notion of stability here should
+be adjusted a little bit. A pairing is stable if
+\begin{itemize}
+\item there is no paired individual who prefers being single over being with his/her current partner,
+\item there is no paired man and paired woman that would both prefer to be with each other over their current partners, and
+\item there is no single man and single woman that would both prefer to be with each other over being single. 
+\end{itemize} 
+
+\begin{Parts}
+\Part Prove that a stable pairing still exists in the case where we allow single individuals. You can approach this by
+introducing imaginary mates that people ``marry''
+if they are single. How should you adjust the preference lists of
+people, including those of the newly introduced imaginary ones for
+this to work?
+
+\begin{Answer}
+    Let us first consider the existence of an imaginary partner for each person taking part in the matching. Let the case of being matched with your imaginary partner be equivalent to being matched alone. These imaginary partners have the following properties:
+    \begin{enumerate}
+        \item Each imaginary partner can only be paired with the person associated with it or another imaginary partner.
+        \item Each imaginary partner ranks the person associated with it first on its preference list (the remaining rankings are arbitrary)
+        \item In the actual humans' preference lists, imaginary partners will appear before any individuals that their associated person would refuse to be paired with but after any humans their associated person would like to be paired with. (Any ranking following the imaginary partner can be arbitrary).
+    \end{enumerate}
+    The standard propose-reject algorithm can be run on the new preference lists which includes imaginary partners in order to produce the final matching.
+The first requirement for stability is met in a matching including humans and imaginary partners because if someone who is paired would rather be single, he/she would form a rogue couple with his/her respective imaginary partner. The second requirement is met because if there did exist a rogue female-male pair, the pairing would violate the property of the propose-reject algorithm which states there are no rogue couples in a stable matching. The third requirement is met because if two humans preferred each other rather than being single (paired with imaginary partners), they would form a rogue couple with each other. Thus, since all requirements for stability hold, a stable pairing must still exist in a case where single individuals are allowed.
+\end{Answer}
+\Part As you saw in the lecture, we may have different stable pairings. But
+interestingly, if a person remains single in one stable pairing, s/he
+must remain single in any other stable pairing as well (there really
+is no hope for some people!). Prove this fact by contradiction.
+
+\begin{Answer}
+    We proceed by contradiction. Assume there does exist a man $M$ who is matched with a woman $W$ in one pairing but not in another. This means that in one stable pairing, he was paired with his imaginary partner but was paired with a person higher on his preference list,$W$, in another. In the latter pairing where $M$ prefers $W$ to his imaginary partner, we know that he proposes to $W$ before proposing to his imaginary partner. In the former pairing, $W$ must have rejected him. $W$ would only reject $M$ if she had a more preferred $M'$ on her string. But $M'$ would not propose to $W$ when $M$ gets paired with $W$ because $M'$ must have had a better woman, $W'$, who accepted his proposal. Following this logic, there must be an infinite number of men and women to draw on in order to successfully pair $M$ with his imaginary partner and $M$ with $W$. However, since we have a finite number of men and women to draw on, we have a contradiction. Thus, if a man or woman is single in one pairing, he/she must be single in all other pairings.
+\end{Answer}
+
+\end{Parts}
+
+\Question{Quantitative Stable Marriage Algorithm}
+
+Once you have practiced the basic algorithm, let's quantify stable marriage problem a little bit. Here we define the following notation: on day $j$, let $P_j(M)$ be the rank of the woman that man $M$ proposes to (where the first woman on his list has rank $1$ and the last has rank $n$). Also, let $R_j(W)$ be the total number of men that woman $W$ has rejected up through day $j-1$ (i.e.\ not including the proposals on day $j$). Please answer the following questions using the notation above.
+
+\begin{Parts}
+\Part  Prove or disprove the following claim: $\sum_M P_j(M) - \sum_W R_j(W)$ is independent of $j$. If it is true, please also give the value of $\sum_M P_j(M) - \sum_W R_j(W)$. The notation, $\sum_M$ and $\sum_W$, simply means that we are summing over all men and all women.
+
+\begin{Answer}
+On the first day, each man proposes to the first woman on his list so $\Sigma_MP_1(M)=n$ and no men have been rejected yet on the first day so $\Sigma_WR_1(W)=0$. So,  $\Sigma_MP_1(M)-\Sigma_WR_1(W)=n$. Each time a woman rejects a man on day $j-1$, $\Sigma_MP_j(M)$ and $\Sigma_WR_1j$ both increase by 1 because the rejected man will propose to the next woman on his list on day $j$. Thus,  $\Sigma_MP_j(M)-\Sigma_WR_j(W)$ remains constant and is independent of $j$.
+\end{Answer}
+
+\Part  Prove or disprove the following claim: one of the \textbf{men or women} must be matched to someone who is ranked in the top half of their preference list. You may assume that $n$ is even. 
+
+\begin{Answer}
+We proceed by contradiction. Assume that no man is matched with a woman in the top half of his preference list. This means that each of them have been rejected at least $\frac{n}{2}$ times which means the total number of rejections equals $\frac{n^2}{2}$. This means that at least one woman rejected at least $\frac{n}{2}$ men. However, by the improvement lemma, this woman must be matched with a man more than the $\frac{n}{2}$ she rejected. In other words, she must have been matched with a man in the top half of her preference list which is a contradiction of our original assumption.
+\end{Answer}
+
+\end{Parts}
+
+
+
+
+\Question{Short Answer: Graphs}
+
+\begin{Parts}
+
+\Part
+Bob removed a degree $3$ node in an $n$-vertex tree, how many connected
+components are in the resulting graph?  (An expression that may
+contain $n$.)
+
+\begin{Answer}
+3
+
+Since a tree is acyclic, each of the 3 vertices that a degree 3 node is connected to cannot be connected to by any of the other 2 vertices  (otherwise a cycle would form between that vertex, the node, and one of the other vertices). Thus, removal of the degree 3 node will result in 3 connected components because each vertex originally connected to the node would become completely disconnected from the rest of the graph.
+\end{Answer}
+
+\Part
+Given an $n$-vertex tree, Bob added 10 edges to it, then Alice removed 
+5 edges and the resulting graph has 3 connected components.
+How many edges must be removed to remove all cycles
+in the resulting graph? (An expression that may contain $n$.)
+
+\begin{Answer}
+7
+
+Since Bob can only add additional edges and not additional vertices, the additional 10 edges must generate 10 new cycles in the tree. Alice's subsequent removals can either create a new connected component or remove a cycle. Since she creates 2 new connected components (3 in total) she must have removed 3 cycles. Thus, an additional 7 removals are necessary to remove all remaining cycles.
+\end{Answer}
+
+\Part
+Give a gray code for 3-bit strings. (Recall, that a gray code is a
+sequence of the strings where adjacent elements differ by one.  For
+example, the gray code of 2-bit strings is $00,01,11,10$.  Note the
+last string is considered adjacent to the first and $10$ differs in
+one bit from $00$. Answer should be sequence of three-bit strings: 8
+in all.)
+
+\begin{Answer}
+000, 001, 101, 100, 110, 111, 011, 010
+\end{Answer}
+
+\Part
+For all $n \geq 3$, the complete graph on $n$ vertices, $K_n$ has more
+edges than the $d$-dimensional hypercube for $d=n$. (True or False.)
+
+\begin{Answer}
+Our goal is to show that the number of edges in a complete graph $K_n$ ($n(n-1)/2$) is greater than the number of edges of an $n$-dimensional hypercube ($n2^{n-1}$) for all $n\geq3$: $$ n(n-1)/2 > n2^{n-1}$$ $$= n(n-1) > n2^n$$ $$= n-1 > 2^n$$ $$= n>2^n+1$$
+
+Since $n \geq 3$, there cannot exist a value of $n$ where $n>2^n+1$. Thus, the proposition is false.
+\end{Answer}
+
+
+\Part
+The complete graph with $n$ vertices where $n$ is an odd prime can have all its edges
+covered with $x$ Rudrata cycles: a cycle where
+each vertex appears exactly once. What is the number, $x$,  of
+such cycles in a cover? (Answer should be an expression that depends on $n$.)
+
+\begin{Answer}
+$$x=\frac{(n-1)}{2}$$
+
+Since the degree of each vertex is $n-1$ and each cycle removes a degree 2 from each node, $\frac{n-1}{2}$ will give the total number of cycles given that we include only disjoint sets. 
+\end{Answer}
+
+\Part
+Give a set of disjoint Rudrata cycles that covers the edges of $K_5$, the complete
+graph on $5$ vertices.
+(Each path should be a sequence (or list) of edges in $K_5$.)
+
+\begin{Answer}
+$$\{(V_1,V_2), (V_2,V_3), (V_3,V_4), (V_4,V_5), (V_5,V_1)\}$$ 
+\begin{center}
+and
+\end{center}
+$$\{ (V_1, V_4), (V_4, V_2), (V_2, V_5), (V_5, V_3), (V_3, V_1)\}$$
+\end{Answer}
+
+\end{Parts}
+
+%%%%%%%%%%%%%%%%%%%% QUESTIONS END HERE
+
+\end{document}
